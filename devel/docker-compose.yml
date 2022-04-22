@@ -1,41 +1,5 @@
 version: '2.4'
 services:
-  composer:
-    image: local/osbuild-composer
-    build:
-      context: ../../osbuild-composer
-      dockerfile: ./distribution/Dockerfile-ubi
-    volumes:
-      - ${COMPOSER_CONFIG_DIR}/osbuild-composer.toml:/etc/osbuild-composer/osbuild-composer.toml:z
-      - ${COMPOSER_CONFIG_DIR}/acl.yml:/etc/osbuild-composer/acl.yml:z
-      - ${CERT_DIR}/ca-crt.pem:/etc/osbuild-composer/ca-crt.pem:z
-      - ${CERT_DIR}/composer-crt.pem:/etc/osbuild-composer/composer-crt.pem:z
-      - ${CERT_DIR}/composer-key.pem:/etc/osbuild-composer/composer-key.pem:z
-    ports: 
-      - 8080:8700
-    networks:
-      net:
-        ipv4_address: 172.31.0.10
-  worker:
-    image: local/osbuild-worker
-    build:
-      context: ../../osbuild-composer
-      dockerfile: ./distribution/Dockerfile-worker
-    # override the entrypoint to specify composer hostname and port
-    entrypoint: [ "/usr/libexec/osbuild-composer/osbuild-worker", "composer:8700" ]
-    volumes:
-      - ${CERT_DIR}/ca-crt.pem:/etc/osbuild-composer/ca-crt.pem:z
-      - ${WORKER_CONFIG_DIR}/osbuild-worker.toml:/etc/osbuild-worker/osbuild-worker.toml:z
-      - ${WORKER_CONFIG_DIR}/token:/etc/osbuild-worker/token:z
-    environment:
-      - CACHE_DIRECTORY=/var/cache/osbuild-composer
-    privileged: true
-    networks:
-      net:
-        ipv4_address: 172.31.0.20
-    depends_on:
-      - "composer"
-    restart: on-failure
   postgres:
     image: docker.io/postgres:10.5
     healthcheck:
@@ -75,7 +39,7 @@ services:
       - PGDATABASE=postgres
       - PGUSER=postgres
       - PGPASSWORD=postgres
-      - COMPOSER_URL=https://composer:8080
+      - COMPOSER_URL=https://dockerhost:10443
       - COMPOSER_TOKEN_URL=http://fauxauth:8888/token
       - COMPOSER_OFFLINE_TOKEN=${COMPOSER_OFFLINE_TOKEN}
       - COMPOSER_CLIENT_ID=${COMPOSER_CLIENT_ID}
@@ -86,8 +50,9 @@ services:
       net:
         ipv4_address: 172.31.0.40
     depends_on:
-      - "composer"
       - "postgres"
+    extra_hosts:
+      - dockerhost:192.168.1.4
     restart: on-failure
   frontend:
     image: local/image-builder-frontend
