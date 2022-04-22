@@ -30,10 +30,6 @@ services:
     environment:
       - CACHE_DIRECTORY=/var/cache/osbuild-composer
     privileged: true
-    cap_add:
-      - MKNOD
-      - SYS_ADMIN
-      - NET_ADMIN
     networks:
       net:
         ipv4_address: 172.31.0.20
@@ -82,6 +78,7 @@ services:
       - COMPOSER_URL=https://composer:8080
       - COMPOSER_TOKEN_URL=http://fauxauth:8888/token
       - COMPOSER_OFFLINE_TOKEN=${COMPOSER_OFFLINE_TOKEN}
+      - COMPOSER_CLIENT_ID=${COMPOSER_CLIENT_ID}
       - COMPOSER_CA_PATH=/etc/image-builder/ca-crt.pem
       - DISTRIBUTIONS_DIR=/app/distributions
       - QUOTA_FILE=/config/quotas.json
@@ -124,6 +121,7 @@ services:
      - "backend"
      - "frontend"
   prometheus:
+    profiles: ["metrics"]
     image: prom/prometheus:latest
     ports:
       - "9000:9090"
@@ -139,6 +137,7 @@ services:
     command:
       - "--config.file=/config/prometheus.yml"
   grafana:
+    profiles: ["metrics"]
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
