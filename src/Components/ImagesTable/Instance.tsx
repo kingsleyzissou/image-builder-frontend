@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 
-import path from 'path';
+// import path from 'path';
 
 import {
   Alert,
@@ -21,7 +21,7 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { useChrome } from '@redhat-cloud-services/frontend-components/useChrome';
 import { ChromeUser } from '@redhat-cloud-services/types';
 import { useLoadModule, useScalprum } from '@scalprum/react-core';
-import cockpit from 'cockpit';
+// import cockpit from 'cockpit';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -36,7 +36,7 @@ import {
   selectSelectedBlueprintId,
   selectBlueprintSearchInput,
 } from '../../store/BlueprintSlice';
-import { LocalUploadStatus } from '../../store/cockpit/composerCloudApi';
+// import { LocalUploadStatus } from '../../store/cockpit/composerCloudApi';
 import { useAppSelector } from '../../store/hooks';
 import {
   BlueprintItem,
@@ -448,15 +448,18 @@ export const LocalInstance = ({ compose }: LocalInstancePropTypes) => {
   }
 
   const status = composeStatus?.image_status.status;
-  const options = composeStatus?.image_status.upload_status
-    ?.options as unknown as LocalUploadStatus;
+  // const options = composeStatus?.image_status.upload_status
+  // ?.options as unknown as LocalUploadStatus;
 
   if (status !== 'success') {
     return <></>;
   }
 
-  const parsedPath = path.parse(options?.artifact_path);
-  const href = '/files#/?path=' + encodeURIComponent(parsedPath.dir);
+  // console.log('Compose status: ', composeStatus);
+  // console.log('Image status: ', composeStatus?.image_status);
+
+  // const parsedPath = path.parse(options?.artifact_path);
+  // const href = '/files#/?path=' + encodeURIComponent(parsedPath.dir);
   return (
     <Button
       component="a"
@@ -466,12 +469,12 @@ export const LocalInstance = ({ compose }: LocalInstancePropTypes) => {
         ev.preventDefault();
         // Make sure the file is readable for the user, the artefact
         // directory is created as 700 by default.
-        await cockpit.spawn(['chmod', '755', parsedPath.dir], {
-          superuser: 'try',
-        });
-        cockpit.jump(href, cockpit.transport.host);
+        // await cockpit.spawn(['chmod', '755', parsedPath.dir], {
+        // superuser: 'try',
+        // });
+        // cockpit.jump(href, cockpit.transport.host);
       }}
-      href={href}
+      // href={href}
       isInline
     >
       Open in file browser

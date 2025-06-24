@@ -20,7 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { contentSourcesApi } from './contentSourcesApi';
 
 import {
-  mapHostedToOnPrem,
+  // mapHostedToOnPrem,
   mapOnPremToHosted,
 } from '../../Components/Blueprints/helpers/onPremToHostedBlueprintMapper';
 import { BLUEPRINTS_DIR } from '../../constants';
@@ -90,33 +90,37 @@ const getBlueprintsPath = async () => {
 
 const readComposes = async (bpID: string) => {
   const blueprintsDir = await getBlueprintsPath();
-  let composes: ComposesResponseItem[] = [];
-  const bpInfo = await fsinfo(
-    path.join(blueprintsDir, bpID),
-    ['entries', 'mtime'],
-    {
-      superuser: 'try',
-    }
-  );
-  const bpEntries = Object.entries(bpInfo?.entries || {});
-  for (const entry of bpEntries) {
-    if (entry[0] === `${bpID}.json`) {
-      continue;
-    }
-    const composeReq = await cockpit
-      .file(path.join(blueprintsDir, bpID, entry[0]))
-      .read();
-    composes = [
-      ...composes,
-      {
-        id: entry[0],
-        request: JSON.parse(composeReq),
-        created_at: new Date(entry[1]!.mtime * 1000).toString(),
-        blueprint_id: bpID,
-      },
-    ];
-  }
-  return composes;
+  // let composes: ComposesResponseItem[] = [];
+  // const bpInfo = await fsinfo(
+  // path.join(blueprintsDir, bpID),
+  // ['entries', 'mtime'],
+  // {
+  // superuser: 'try',
+  // }
+  // );
+  const result = await cockpit
+    .file(path.join(blueprintsDir, bpID, 'composes.json'))
+    .read();
+  return JSON.parse(result);
+  // const bpEntries = Object.entries(bpInfo?.entries || {});
+  // for (const entry of bpEntries) {
+  // if (entry[0] === `${bpID}.json`) {
+  // continue;
+  // }
+  // const composeReq = await cockpit
+  // .file(path.join(blueprintsDir, bpID, entry[0]))
+  // .read();
+  // composes = [
+  // ...composes,
+  // {
+  // id: entry[0],
+  // request: JSON.parse(composeReq),
+  // created_at: new Date(entry[1]!.mtime * 1000).toString(),
+  // blueprint_id: bpID,
+  // },
+  // ];
+  // }
+  // return composes;
 };
 
 export const cockpitApi = contentSourcesApi.injectEndpoints({
@@ -436,41 +440,42 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
             const parsed = JSON.parse(contents);
 
             const createBPReq = parsed as CreateBlueprintRequest;
-            const blueprint = mapHostedToOnPrem(createBPReq);
+            // const blueprint = mapHostedToOnPrem(createBPReq);
             const composes: ComposeResponse[] = [];
             for (const ir of parsed.image_requests) {
               const composeReq = {
-                distribution: createBPReq.distribution,
-                blueprint: blueprint,
-                image_requests: [
-                  {
-                    architecture: ir.architecture,
-                    image_type: ir.image_type,
-                    repositories: [],
-                    upload_targets: [
-                      {
-                        type: 'local',
-                        upload_options: {},
-                      },
-                    ],
-                  },
-                ],
-              };
-              const saveReq = {
                 distribution: createBPReq.distribution,
                 blueprint: parsed,
                 image_requests: [
                   {
                     architecture: ir.architecture,
-                    image_type: ir.image_type,
+                    image_type:
+                      ir.image_type === 'guest-image' ? 'qcow2' : ir.image_type,
                     repositories: [],
-                    upload_request: {
-                      type: 'local',
-                      options: {},
-                    },
+                    upload_request: [
+                      {
+                        type: 'local',
+                        options: {},
+                      },
+                    ],
                   },
                 ],
               };
+              // const saveReq = {
+              //   distribution: createBPReq.distribution,
+              //   blueprint: parsed,
+              //   image_requests: [
+              //     {
+              //       architecture: ir.architecture,
+              //       image_type: ir.image_type,
+              //       repositories: [],
+              //       upload_request: {
+              //         type: 'local',
+              //         options: {},
+              //       },
+              //     },
+              //   ],
+              // };
               const composeResp = await baseQuery({
                 url: '/compose',
                 method: 'POST',
@@ -479,10 +484,12 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
                   'content-type': 'application/json',
                 },
               });
+              composes.push(composeResp.data?.id);
               await cockpit
-                .file(path.join(blueprintsDir, filename, composeResp.data?.id))
-                .replace(JSON.stringify(saveReq));
-              composes.push({ id: composeResp.data?.id });
+                // with the new ibcli, just save a list of the blueprint
+                // composes
+                .file(path.join(blueprintsDir, filename, 'composes.json'))
+                .replace(JSON.stringify(composes));
             }
             return {
               data: composes,
@@ -493,28 +500,50 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
         },
       }),
       getComposes: builder.query<GetComposesApiResponse, GetComposesApiArg>({
-        queryFn: async () => {
+        queryFn: async (_, __, ___, baseQuery) => {
           try {
-            const blueprintsDir = await getBlueprintsPath();
-            const info = await fsinfo(blueprintsDir, ['entries'], {
-              superuser: 'try',
+            const result = await baseQuery({
+              url: '/composes',
+              method: 'GET',
             });
-            let composes: ComposesResponseItem[] = [];
-            const entries = Object.entries(info?.entries || {});
-            for (const entry of entries) {
-              composes = composes.concat(await readComposes(entry[0]));
-            }
+
+            // console.log('Composes Result');
+            // console.log(result);
+
+            let composes = (result.data || []).map(
+              async (compose: ComposesResponseItem) => {
+                const res = await baseQuery({
+                  url: `/composes/${compose.id}`,
+                  method: 'GET',
+                });
+                return res.data;
+              }
+            );
+
+            composes = await Promise.all(composes);
+
+            // const blueprintsDir = await getBlueprintsPath();
+            // const info = await fsinfo(blueprintsDir, ['entries'], {
+            // superuser: 'try',
+            // });
+            // let composes: ComposesResponseItem[] = [];
+            // const entries = Object.entries(info?.entries || {});
+            // for (const entry of entries) {
+            // composes = composes.concat(await readComposes(entry[0]));
+            // }
             return {
               data: {
                 meta: {
-                  count: composes.length,
+                  count: composes.value.length,
                 },
                 links: {
-                  first: composes.length > 0 ? composes[0].id : '',
+                  first: composes.value.length > 0 ? composes.value[0].id : '',
                   last:
-                    composes.length > 0 ? composes[composes.length - 1].id : '',
+                    composes.value.length > 0
+                      ? composes.value[composes.value.length - 1].id
+                      : '',
                 },
-                data: composes,
+                data: composes.value,
               },
             };
           } catch (error) {
@@ -526,20 +555,45 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
         GetBlueprintComposesApiResponse,
         GetBlueprintComposesApiArg
       >({
-        queryFn: async (queryArgs) => {
+        queryFn: async (queryArgs, _, __, baseQuery) => {
           try {
-            const composes = await readComposes(queryArgs.id);
+            const bpComposes = await readComposes(queryArgs.id);
+
+            const result = await baseQuery({
+              url: '/composes',
+              method: 'GET',
+            });
+
+            let composes = await result.data
+              .filter((compose: ComposesResponseItem) => {
+                if (bpComposes.length === 0) {
+                  return false;
+                }
+                return bpComposes.includes(compose.id);
+              })
+              .map(async (compose: ComposesResponseItem) => {
+                const res = await baseQuery({
+                  url: `/composes/${compose.id}`,
+                  method: 'GET',
+                });
+                return res.data;
+              });
+
+            composes = await Promise.all(composes);
+
             return {
               data: {
                 meta: {
-                  count: composes.length,
+                  count: composes.value.length,
                 },
                 links: {
-                  first: composes.length > 0 ? composes[0].id : '',
+                  first: composes.value.length > 0 ? composes.value[0].id : '',
                   last:
-                    composes.length > 0 ? composes[composes.length - 1].id : '',
+                    composes.value.length > 0
+                      ? composes.value[composes.value.length - 1].id
+                      : '',
                 },
-                data: composes,
+                data: composes.value,
               },
             };
           } catch (error) {

@@ -10,19 +10,19 @@ import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 
 import './AppCockpit.scss';
-import { NotReady, RequireAdmin } from './Components/Cockpit';
+import { RequireAdmin } from './Components/Cockpit';
 import { Router } from './Router';
 import { onPremStore as store } from './store';
-import { useGetComposerSocketStatus } from './Utilities/useComposerStatus';
+// import { useGetComposerSocketStatus } from './Utilities/useComposerStatus';
 import { useIsCockpitAdmin } from './Utilities/useIsCockpitAdmin';
 
 const Application = () => {
-  const { enabled, started } = useGetComposerSocketStatus();
+  // const { enabled, started } = useGetComposerSocketStatus();
   const isAdmin = useIsCockpitAdmin();
 
-  if (!started || !enabled) {
-    return <NotReady enabled={enabled} />;
-  }
+  // if (!started || !enabled) {
+  //   return <NotReady enabled={enabled} />;
+  // }
 
   if (!isAdmin) {
     return <RequireAdmin />;

@@ -28,7 +28,7 @@ export const baseQuery =
     // async/await because cockpit rejects the http request
     // with two arguments (error & data/body)
     return new Promise((resolve, reject) => {
-      const cloudApi = cockpit.http('/run/cloudapi/api.socket', {
+      const cloudApi = cockpit.http('/run/osbuild-decomposer-httpd.sock', {
         superuser: 'try',
       });
       return cloudApi
