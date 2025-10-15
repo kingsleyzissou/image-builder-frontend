@@ -1,3 +1,4 @@
+import { z } from 'zod/v4';
 import { Partition } from './steps/FileSystem/fscTypes';
 
 export const isAwsAccountIdValid = (awsAccountId: string | undefined) => {
@@ -66,35 +67,53 @@ export const isFileSystemConfigValid = (partitions: Partition[]) => {
   return duplicates.length === 0;
 };
 
-export const isUserNameValid = (userName: string) => {
-  const isLengthValid = userName.length <= 32;
-  const isNotNumericOnly = !/^\d+$/.test(userName);
-  const isPatternValid = /^[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9_$]$/.test(
-    userName,
-  );
+export default function unique({ path }: { path: string }) {
+  return (data: string[], ctx: z.RefinementCtx) => {
+    if (!data || data.length == 0) {
+      return;
+    }
 
-  return isLengthValid && isNotNumericOnly && isPatternValid;
-};
+    const seen = new Set();
+    data.forEach((item, index) => {
+      if (seen.has(item)) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'item must be unique',
+          path: [path, index],
+        });
+      } else {
+        seen.add(item);
+      }
+    });
+  };
+}
 
-export const isUserGroupValid = (group: string) => {
-  // see `man groupadd` for the exact specification
-  return (
-    group.length <= 32 &&
-    /^[a-zA-Z0-9_][a-zA-Z0-9_-]*(\$)?$/.test(group) &&
-    /[a-zA-Z]+/.test(group) // contains at least one letter
-  );
-};
-
-export const isSshKeyValid = (sshKey: string) => {
-  // 1. Key types: ssh-rsa, ssh-dss, ssh-ed25519, or ecdsa-sha2-nistp(256|384|521).
-  // 2. Base64-encoded key material.
-  // 3. Optional comment at the end.
-  const isPatternValid =
-    /^(ssh-(rsa|dss|ed25519)|ecdsa-sha2-nistp(256|384|521))\s+[A-Za-z0-9+/=]+(\s+\S+)?$/.test(
-      sshKey,
-    );
-  return isPatternValid;
-};
+export const UserSchema = z.object({
+  username: z
+    .string()
+    .max(32, 'The username cannot be longer than 32 characters')
+    .regex(/^(?!\d+$).+$/, 'The username must contain atleast one letter')
+    .regex(/^[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9_$]$/, 'invalid username'),
+  group: z
+    .array(
+      z
+        .string()
+        .max(32, 'The group cannot be longer than 32 characters')
+        .regex(/^(?!\d+$).+$/, 'The groupname must contain at least one letter')
+        .regex(/^[a-zA-Z0-9_][a-zA-Z0-9_-]*(\$)?$/, 'invalid group'),
+    )
+    .superRefine(unique({ path: 'group' }))
+    .optional(),
+  sshkey: z.optional(
+    z.string().regex(
+      // 1. Key types: ssh-rsa, ssh-dss, ssh-ed25519, or ecdsa-sha2-nistp(256|384|521).
+      // 2. Base64-encoded key material.
+      // 3. Optional comment at the end.
+      /^(ssh-(rsa|dss|ed25519)|ecdsa-sha2-nistp(256|384|521))\s+[A-Za-z0-9+/=]+(\s+\S+)?$/,
+      'Invalid ssh key',
+    ),
+  ),
+});
 
 export const getDuplicateMountPoints = (partitions: Partition[]): string[] => {
   const mountPointSet: Set<string> = new Set();
