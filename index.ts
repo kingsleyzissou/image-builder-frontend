@@ -22,13 +22,15 @@ export const unique = (key: string) => {
   };
 };
 
+const UsernameSchema = z
+  .string()
+  .max(32, 'The username cannot be longer than 32 characters')
+  .regex(/^(?!\d+$).+$/, 'The username must contain atleast one letter')
+  // TODO: more descriptive error message
+  .regex(/^[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9_$]$/, 'invalid username');
+
 export const UserSchema = z.object({
-  username: z
-    .string()
-    .max(32, 'The username cannot be longer than 32 characters')
-    .regex(/^(?!\d+$).+$/, 'The username must contain atleast one letter')
-    // TODO: more descriptive error message
-    .regex(/^[a-zA-Z0-9][a-zA-Z0-9_.-]*[a-zA-Z0-9_$]$/, 'invalid username'),
+  username: UsernameSchema,
   groups: z
     .array(
       z
@@ -43,23 +45,33 @@ export const UserSchema = z.object({
     .superRefine(unique('group'))
     .optional(),
   sshkey: z.optional(
-    z.string().regex(
-      // TODO: maybe break this up into 3 items so we can have more useful error messages
-      // 1. Key types: ssh-rsa, ssh-dss, ssh-ed25519, or ecdsa-sha2-nistp(256|384|521).
-      // 2. Base64-encoded key material.
-      // 3. Optional comment at the end.
-      /^(ssh-(rsa|dss|ed25519)|ecdsa-sha2-nistp(256|384|521))\s+[A-Za-z0-9+/=]+(\s+\S+)?$/,
-      // TODO: more descriptive error message
-      'Invalid ssh key',
-    ),
+    z
+      .string()
+      // we can do the regex checks incrementally so that we can have clearer error messages
+      .regex(
+        // 1. Key types: ssh-rsa, ssh-dss, ssh-ed25519, or ecdsa-sha2-nistp(256|384|521).
+        /^ssh-(ed25519|rsa|dss|ecdsa)|ecdsa-sha2-nistp(256|384|521)/,
+        'SSH key must be one of ssh-rsa, ssh-dss, ssh-ed25519, or ecdsa-sha2-nistp(256|384|521)',
+      )
+      .regex(
+        // 2. Base64-encoded key material.
+        // 3. Optional comment at the end.
+        /^(ssh-(rsa|dss|ed25519)|ecdsa-sha2-nistp(256|384|521))\s+[A-Za-z0-9+/=]+(\s+\S+)?$/,
+        'SSH key data must be base64 encoded',
+      ),
   ),
 });
 
 const user = {
-  username: '123',
+  username: '1234',
   groups: ['test', '123', 'hello', 'test'],
+  sshkey: 'hello',
 };
 
 const result = UserSchema.safeParse(user);
 
-console.log(result.error);
+// const pretty = z.treeifyError(result.error!);
+
+console.log(z.prettifyError(result.error!));
+
+console.log(result.error.issues);
