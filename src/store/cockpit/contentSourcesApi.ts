@@ -1,11 +1,11 @@
-import { emptyCockpitApi } from './emptyCockpitApi';
-import type { Package, SearchRpmApiArg } from './types';
-
 import type {
   ListSnapshotsByDateApiArg,
   ListSnapshotsByDateApiResponse,
   SearchRpmApiResponse,
-} from '../service/contentSourcesApi';
+} from '@/store/api/contentSources';
+
+import { emptyCockpitApi } from './emptyCockpitApi';
+import type { Package, SearchRpmApiArg } from './types';
 
 export const contentSourcesApi = emptyCockpitApi.injectEndpoints({
   endpoints: (builder) => ({

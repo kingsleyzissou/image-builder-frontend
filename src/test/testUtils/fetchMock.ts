@@ -3,7 +3,7 @@ import createFetchMock from 'vitest-fetch-mock';
 import {
   ApiSearchPackageGroupResponse,
   ApiSearchRpmResponse,
-} from '@/store/contentSourcesApi';
+} from '@/store/api/contentSources';
 import { Architectures, BlueprintsResponse } from '@/store/imageBuilderApi';
 
 // Shared fetch mock instance
