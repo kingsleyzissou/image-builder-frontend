@@ -1,9 +1,9 @@
-import { Bootc } from './cockpit/composerCloudApi';
 import {
   Awss3UploadStatus,
   AwsUploadRequestOptions,
   AzureUploadRequestOptions,
   AzureUploadStatus,
+  Bootc,
   ComposesResponseItem,
   Distributions,
   GcpUploadRequestOptions,
@@ -12,7 +12,7 @@ import {
   OciUploadStatus,
   UploadRequest,
   UploadStatus,
-} from './imageBuilderApi';
+} from '@/store/api/backend';
 
 import { IMAGE_MODE, targetOptions } from '../constants';
 

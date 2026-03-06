@@ -14,15 +14,16 @@ import TOML from 'smol-toml';
 // Because the blueprint formats differ, using the 'backendApi'
 // abstraction would be misleading.  Import and handle each environment
 // separately.
-import { selectSelectedBlueprintId } from '../../store/BlueprintSlice';
-import { useLazyExportBlueprintCockpitQuery } from '../../store/cockpit/cockpitApi';
-import type { Blueprint as CockpitExportResponse } from '../../store/cockpit/composerCloudApi';
-import { selectIsOnPremise } from '../../store/envSlice';
-import { useAppSelector } from '../../store/hooks';
 import {
   BlueprintExportResponse,
+  type CloudApiBlueprint as CockpitExportResponse,
+  useLazyExportBlueprintCockpitQuery,
   useLazyExportBlueprintQuery,
-} from '../../store/imageBuilderApi';
+} from '@/store/api/backend';
+
+import { selectSelectedBlueprintId } from '../../store/BlueprintSlice';
+import { selectIsOnPremise } from '../../store/envSlice';
+import { useAppSelector } from '../../store/hooks';
 
 interface BlueprintActionsMenuProps {
   setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;

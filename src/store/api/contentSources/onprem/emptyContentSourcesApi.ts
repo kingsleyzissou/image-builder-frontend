@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 
-import { baseQuery } from '@/store/cockpit/baseQuery';
+import { baseQuery } from '@/store/api/backend/onprem/baseQuery';
 
 // NOTE: The reducerPath 'cockpitApi' is shared across all on-prem API slices
 // (contentSources, imageBuilder, etc.) because they all communicate with the

@@ -25,19 +25,20 @@ import {
 } from '@patternfly/react-icons';
 
 import {
-  AWS_S3_EXPIRATION_TIME_IN_HOURS,
-  OCI_STORAGE_EXPIRATION_TIME_IN_DAYS,
-} from '../../constants';
-import { useGetComposeStatusQuery } from '../../store/backendApi';
-import { CockpitComposesResponseItem } from '../../store/cockpit/types';
-import {
+  ComposerComposesResponseItem,
   ComposesResponseItem,
   ComposeStatus,
   ComposeStatusError,
-} from '../../store/imageBuilderApi';
+  useGetComposeStatusQuery,
+} from '@/store/api/backend';
+
+import {
+  AWS_S3_EXPIRATION_TIME_IN_HOURS,
+  OCI_STORAGE_EXPIRATION_TIME_IN_DAYS,
+} from '../../constants';
 
 type ComposeStatusPropTypes = {
-  compose: ComposesResponseItem | CockpitComposesResponseItem;
+  compose: ComposesResponseItem | ComposerComposesResponseItem;
 };
 
 export const AwsDetailsStatus = ({ compose }: ComposeStatusPropTypes) => {

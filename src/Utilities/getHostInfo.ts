@@ -1,8 +1,9 @@
 import cockpit from 'cockpit';
 import { read_os_release } from 'os-release';
 
+import { Distributions } from '@/store/api/backend';
+
 import { AARCH64, X86_64 } from '../constants';
-import { Distributions } from '../store/imageBuilderApi';
 import { asDistribution } from '../store/typeGuards';
 
 type Architecture = 'x86_64' | 'aarch64';

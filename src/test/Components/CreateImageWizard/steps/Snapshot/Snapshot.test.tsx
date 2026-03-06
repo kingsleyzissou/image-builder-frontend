@@ -1,8 +1,9 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 
+import { CreateBlueprintRequest } from '@/store/api/backend';
+
 import { CREATE_BLUEPRINT, EDIT_BLUEPRINT } from '../../../../../constants';
-import { CreateBlueprintRequest } from '../../../../../store/imageBuilderApi';
 import { yyyyMMddFormat } from '../../../../../Utilities/time';
 import { mockBlueprintIds } from '../../../../fixtures/blueprints';
 import {

@@ -11,6 +11,11 @@ import { fsinfo } from 'cockpit/fsinfo';
 import TOML from 'smol-toml';
 import { v4 as uuidv4 } from 'uuid';
 
+import {
+  mapHostedToOnPrem,
+  mapOnPremToHosted,
+} from '@/Components/Blueprints/helpers/onPremToHostedBlueprintMapper';
+import { BLUEPRINTS_DIR, IMAGE_MODE } from '@/constants';
 import { contentSourcesApi } from '@/store/api/contentSources/onprem';
 
 import type {
@@ -26,10 +31,10 @@ import type {
 // the same unix socket. This allows us to split out the code a little
 // bit so that the `cockpitApi` doesn't become a monolith.
 import {
-  type CockpitCreateBlueprintApiArg,
-  type CockpitCreateBlueprintRequest,
-  type CockpitImageRequest,
-  type CockpitUpdateBlueprintApiArg,
+  type ComposerCreateBlueprintApiArg,
+  type ComposerCreateBlueprintRequest,
+  type ComposerImageRequest,
+  type ComposerUpdateBlueprintApiArg,
   GetArchitecturesApiArg,
   GetOscapCustomizationsApiArg,
   GetOscapProfilesApiArg,
@@ -41,11 +46,6 @@ import {
   type WorkerConfigResponse,
 } from './types';
 
-import {
-  mapHostedToOnPrem,
-  mapOnPremToHosted,
-} from '../../Components/Blueprints/helpers/onPremToHostedBlueprintMapper';
-import { BLUEPRINTS_DIR, IMAGE_MODE } from '../../constants';
 import {
   BlueprintItem,
   ComposeBlueprintApiArg,
@@ -73,7 +73,7 @@ import {
   GetOscapProfilesApiResponse,
   OpenScapProfile,
   UpdateBlueprintApiResponse,
-} from '../service/imageBuilderApi';
+} from '../hosted';
 
 const lookupDatastreamDistro = (distribution: string) => {
   if (distribution.startsWith('fedora')) {
@@ -165,9 +165,9 @@ const getCloudConfigs = async () => {
 };
 
 export const toCloudAPIComposeRequest = (
-  blueprint: CockpitCreateBlueprintRequest,
+  blueprint: ComposerCreateBlueprintRequest,
   distribution: string,
-  image_requests: CockpitImageRequest[],
+  image_requests: ComposerImageRequest[],
 ): CloudApiComposeRequest => {
   // subscription, users & openscap are the only options
   // that aren't compatibile with the on-prem customizations,
@@ -238,7 +238,7 @@ export const toCloudAPIComposeRequest = (
   };
 };
 
-export const cockpitApi = contentSourcesApi.injectEndpoints({
+export const composerApi = contentSourcesApi.injectEndpoints({
   endpoints: (builder) => {
     return {
       getArchitectures: builder.query<
@@ -407,7 +407,7 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
       }),
       createBlueprint: builder.mutation<
         CreateBlueprintApiResponse,
-        CockpitCreateBlueprintApiArg
+        ComposerCreateBlueprintApiArg
       >({
         queryFn: async ({ createBlueprintRequest: blueprintReq }) => {
           try {
@@ -443,7 +443,7 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
       }),
       updateBlueprint: builder.mutation<
         UpdateBlueprintApiResponse,
-        CockpitUpdateBlueprintApiArg
+        ComposerUpdateBlueprintApiArg
       >({
         queryFn: async ({ id: id, createBlueprintRequest: blueprintReq }) => {
           try {
@@ -503,7 +503,7 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
           const contents = await file.read();
           const blueprint = JSON.parse(
             contents,
-          ) as CockpitCreateBlueprintRequest;
+          ) as ComposerCreateBlueprintRequest;
           const onPrem = mapHostedToOnPrem(blueprint as CreateBlueprintRequest);
           return {
             data: onPrem,
@@ -621,7 +621,7 @@ export const cockpitApi = contentSourcesApi.injectEndpoints({
             const contents = await file.read();
             const parsed = JSON.parse(contents);
 
-            const blueprint = parsed as CockpitCreateBlueprintRequest;
+            const blueprint = parsed as ComposerCreateBlueprintRequest;
             const composes: ComposeResponse[] = [];
             for (const ir of blueprint.image_requests) {
               if (ir.upload_request.type === 'aws.s3') {
@@ -938,4 +938,4 @@ export const {
   useUpdateWorkerConfigMutation,
   usePodmanImagesQuery,
   useLazyPodmanImagesQuery,
-} = cockpitApi;
+} = composerApi;

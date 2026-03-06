@@ -1,10 +1,10 @@
 import createFetchMock from 'vitest-fetch-mock';
 
+import { Architectures, BlueprintsResponse } from '@/store/api/backend';
 import {
   ApiSearchPackageGroupResponse,
   ApiSearchRpmResponse,
 } from '@/store/api/contentSources';
-import { Architectures, BlueprintsResponse } from '@/store/imageBuilderApi';
 
 // Shared fetch mock instance
 export const fetchMock = createFetchMock(vi);

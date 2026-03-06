@@ -1,9 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { ApiRepositoryResponseRead } from '@/store/api/contentSources';
-import type { ActivationKeys } from '@/store/api/rhsm';
-
 import type {
   CustomRepository,
   Distributions,
@@ -15,7 +12,9 @@ import type {
   Repository,
   Timezone,
   User,
-} from './imageBuilderApi';
+} from '@/store/api/backend';
+import type { ApiRepositoryResponseRead } from '@/store/api/contentSources';
+import type { ActivationKeys } from '@/store/api/rhsm';
 
 import type { FscModeType } from '../Components/CreateImageWizard/steps/FileSystem';
 import type {

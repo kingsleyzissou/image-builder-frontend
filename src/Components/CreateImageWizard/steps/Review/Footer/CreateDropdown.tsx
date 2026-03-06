@@ -15,6 +15,12 @@ import {
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
+import {
+  ComposerCreateBlueprintRequest,
+  CreateBlueprintRequest,
+  CreateBlueprintResponse,
+} from '@/store/api/backend';
+
 import { AMPLITUDE_MODULE_NAME } from '../../../../../constants';
 import {
   useComposeBPWithNotification as useComposeBlueprintMutation,
@@ -22,19 +28,14 @@ import {
   useGetUser,
 } from '../../../../../Hooks';
 import { setBlueprintId } from '../../../../../store/BlueprintSlice';
-import { CockpitCreateBlueprintRequest } from '../../../../../store/cockpit/types';
 import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
-import {
-  CreateBlueprintRequest,
-  CreateBlueprintResponse,
-} from '../../../../../store/imageBuilderApi';
 import { selectPackages } from '../../../../../store/wizardSlice';
 import { createAnalytics } from '../../../../../Utilities/analytics';
 
 type CreateDropdownProps = {
   getBlueprintPayload: () => Promise<
-    '' | CreateBlueprintRequest | CockpitCreateBlueprintRequest | undefined
+    '' | CreateBlueprintRequest | ComposerCreateBlueprintRequest | undefined
   >;
   setIsOpen: (isOpen: boolean) => void;
   isDisabled: boolean;

@@ -34,6 +34,7 @@ import {
 import { orderBy } from 'lodash';
 import { useDispatch } from 'react-redux';
 
+import { useGetArchitecturesQuery } from '@/store/api/backend';
 import {
   useGetTemplateQuery,
   useListRepositoriesQuery,
@@ -57,7 +58,6 @@ import {
   ContentOrigin,
   EPEL_10_REPO_DEFINITION,
 } from '../../../../../constants';
-import { useGetArchitecturesQuery } from '../../../../../store/backendApi';
 import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppSelector } from '../../../../../store/hooks';
 import { asDistribution } from '../../../../../store/typeGuards';

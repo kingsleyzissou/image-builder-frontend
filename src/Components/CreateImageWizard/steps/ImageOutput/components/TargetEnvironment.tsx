@@ -18,14 +18,13 @@ import {
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, HelpIcon } from '@patternfly/react-icons';
 
+import { ImageTypes, useGetArchitecturesQuery } from '@/store/api/backend';
 import { useCustomizationRestrictions } from '@/store/api/distributions';
 import { provisioningApi } from '@/store/api/provisioning';
 import { rhsmApi } from '@/store/api/rhsm';
 
-import { useGetArchitecturesQuery } from '../../../../../store/backendApi';
 import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
-import { ImageTypes } from '../../../../../store/imageBuilderApi';
 import {
   addImageType,
   changeRegistrationType,

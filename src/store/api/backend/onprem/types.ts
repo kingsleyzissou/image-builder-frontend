@@ -13,7 +13,7 @@ import {
   ImageRequest,
   UpdateBlueprintApiArg,
   UploadTypes,
-} from '../imageBuilderApi';
+} from '../hosted';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Params = Record<string, any>;
@@ -82,58 +82,58 @@ export type GetOscapCustomizationsApiArg = {
   profile: DistributionProfileItem;
 };
 
-export type CockpitUploadTypes = UploadTypes | 'local';
+export type ComposerUploadTypes = UploadTypes | 'local';
 
-export type CockpitAwsUploadRequestOptions = AwsUploadRequestOptions & {
+export type ComposerAwsUploadRequestOptions = AwsUploadRequestOptions & {
   region?: string | undefined;
 };
 
-type CockpitUploadRequest = {
-  type: CockpitUploadTypes;
-  options: Awss3UploadRequestOptions | CockpitAwsUploadRequestOptions;
+type ComposerUploadRequest = {
+  type: ComposerUploadTypes;
+  options: Awss3UploadRequestOptions | ComposerAwsUploadRequestOptions;
 };
 
-export type CockpitImageRequest = Omit<ImageRequest, 'upload_request'> & {
-  upload_request: CockpitUploadRequest;
+export type ComposerImageRequest = Omit<ImageRequest, 'upload_request'> & {
+  upload_request: ComposerUploadRequest;
 };
 
-export type CockpitBlueprintResponse = Omit<
+export type ComposerBlueprintResponse = Omit<
   BlueprintResponse,
   'distribution'
 > & {
   distribution: Distributions | 'image-mode';
 };
 
-export type CockpitCreateBlueprintRequest = Omit<
+export type ComposerCreateBlueprintRequest = Omit<
   CreateBlueprintRequest,
   'image_requests' | 'distribution'
 > & {
   distribution: Distributions | 'image-mode';
-  image_requests: CockpitImageRequest[];
+  image_requests: ComposerImageRequest[];
   bootc?: Bootc | undefined;
 };
 
-export type CockpitCreateBlueprintApiArg = Omit<
+export type ComposerCreateBlueprintApiArg = Omit<
   CreateBlueprintApiArg,
   'createBlueprintRequest'
 > & {
-  createBlueprintRequest: CockpitCreateBlueprintRequest;
+  createBlueprintRequest: ComposerCreateBlueprintRequest;
 };
 
-export type CockpitUpdateBlueprintApiArg = Omit<
+export type ComposerUpdateBlueprintApiArg = Omit<
   UpdateBlueprintApiArg,
   'createBlueprintRequest'
 > & {
-  createBlueprintRequest: CockpitCreateBlueprintRequest;
+  createBlueprintRequest: ComposerCreateBlueprintRequest;
 };
 
-export type CockpitComposesResponseItem = Omit<
+export type ComposerComposesResponseItem = Omit<
   ComposesResponseItem,
   'request'
 > & {
   request: Omit<ComposeRequest, 'image_requests' | 'distribution'> & {
     distribution?: Distributions | 'image-mode' | undefined;
-    image_requests: CockpitImageRequest[];
+    image_requests: ComposerImageRequest[];
     bootc?: Bootc | undefined;
   };
 };
