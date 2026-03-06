@@ -14,31 +14,10 @@ import {
   RestrictionStrategy,
 } from '@/store/api/distributions/types';
 
-import isRhel from '../../../Utilities/isRhel';
-
-const computeRestrictionStrategy = ({
-  isImageMode,
-  isOnPremise,
-  distro = 'rhel-9',
-}: {
-  isImageMode: boolean;
-  isOnPremise: boolean;
-  distro?: string;
-}) => {
-  return computeRestrictions({
-    imageTypes: {},
-    context: {
-      isImageMode,
-      isOnPremise,
-      isRhel: isRhel(distro),
-    },
-  });
-};
-
-// Helper to get all customization types as an array
-const getAllCustomizationTypes = (): CustomizationType[] => [
-  ...ALL_CUSTOMIZATIONS,
-];
+import {
+  computeRestrictionStrategy,
+  getAllCustomizationTypes,
+} from './helpers';
 
 describe('useCustomizationRestrictions hook logic', () => {
   describe('default behavior (package mode, not on-premise)', () => {
