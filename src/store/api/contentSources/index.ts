@@ -1,22 +1,21 @@
-import * as serviceQueries from './contentSourcesApi';
+import * as hostedQueries from './hosted';
+import * as onpremQueries from './onprem';
 
-import * as cockpitQueries from '../../cockpit/contentSourcesApi';
-
-export * from './emptyContentSourcesApi';
+export * from './hosted';
 
 // NOTE: we can't just export everything from the contentSourcesApi
 // here since we have different implementations between the on-prem
 // version and the hosted service version
 export const useSearchRpmMutation = process.env.IS_ON_PREMISE
-  ? cockpitQueries.useSearchRpmMutation
-  : serviceQueries.useSearchRpmMutation;
+  ? onpremQueries.useSearchRpmMutation
+  : hostedQueries.useSearchRpmMutation;
 
 export const useListSnapshotsByDateMutation = process.env.IS_ON_PREMISE
-  ? cockpitQueries.useListSnapshotsByDateMutation
-  : serviceQueries.useListSnapshotsByDateMutation;
+  ? onpremQueries.useListSnapshotsByDateMutation
+  : hostedQueries.useListSnapshotsByDateMutation;
 
 // here we can just export all the hooks that aren't implemented in
-// cockpit, this is fine because any component that makes use of these
+// onprem, this is fine because any component that makes use of these
 // hooks will be gated and not shown in the on-prem frontend
 export const {
   useListFeaturesQuery,
@@ -30,7 +29,4 @@ export const {
   useListTemplatesQuery,
   useGetTemplateQuery,
   contentSourcesApi,
-} = serviceQueries;
-
-// we need to re-export all the types
-export type * from './contentSourcesApi';
+} = hostedQueries;

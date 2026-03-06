@@ -11,6 +11,8 @@ import { fsinfo } from 'cockpit/fsinfo';
 import TOML from 'smol-toml';
 import { v4 as uuidv4 } from 'uuid';
 
+import { contentSourcesApi } from '@/store/api/contentSources/onprem';
+
 import type {
   Blueprint as CloudApiBlueprint,
   ComposeRequest as CloudApiComposeRequest,
@@ -23,7 +25,6 @@ import type {
 // This is fine since all the api endpoints for on-prem should query
 // the same unix socket. This allows us to split out the code a little
 // bit so that the `cockpitApi` doesn't become a monolith.
-import { contentSourcesApi } from './contentSourcesApi';
 import {
   type CockpitCreateBlueprintApiArg,
   type CockpitCreateBlueprintRequest,

@@ -2,12 +2,12 @@ import type {
   ListSnapshotsByDateApiArg,
   ListSnapshotsByDateApiResponse,
   SearchRpmApiResponse,
-} from '@/store/api/contentSources';
+} from '../hosted/contentSourcesApi';
 
-import { emptyCockpitApi } from './emptyCockpitApi';
+import { emptyContentSourcesApi } from './emptyContentSourcesApi';
 import type { Package, SearchRpmApiArg } from './types';
 
-export const contentSourcesApi = emptyCockpitApi.injectEndpoints({
+export const contentSourcesApi = emptyContentSourcesApi.injectEndpoints({
   endpoints: (builder) => ({
     searchRpm: builder.mutation<SearchRpmApiResponse, SearchRpmApiArg>({
       queryFn: async (queryArgs, _, __, baseQuery) => {
