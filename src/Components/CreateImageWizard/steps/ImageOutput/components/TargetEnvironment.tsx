@@ -18,6 +18,7 @@ import {
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, HelpIcon } from '@patternfly/react-icons';
 
+import { provisioningApi } from '@/store/api/provisioning';
 import { rhsmApi } from '@/store/api/rhsm';
 
 import { useGetArchitecturesQuery } from '../../../../../store/backendApi';
@@ -25,7 +26,6 @@ import { useCustomizationRestrictions } from '../../../../../store/distributions
 import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import { ImageTypes } from '../../../../../store/imageBuilderApi';
-import { provisioningApi } from '../../../../../store/provisioningApi';
 import {
   addImageType,
   changeRegistrationType,
