@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
 import { simpleTargetNames } from '@/constants';
+import { ImageTypes } from '@/store/api/backend';
 import { selectIsOnPremise } from '@/store/envSlice';
 import { useAppSelector } from '@/store/hooks';
-import { ImageTypes } from '@/store/imageBuilderApi';
 import { isImageType } from '@/store/typeGuards';
 import {
   selectArchitecture,
