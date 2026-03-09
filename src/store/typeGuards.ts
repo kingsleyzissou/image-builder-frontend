@@ -1,4 +1,4 @@
-import { Bootc } from './cockpit/composerCloudApi';
+import { Bootc } from './cockpit';
 import {
   Awss3UploadStatus,
   AwsUploadRequestOptions,
