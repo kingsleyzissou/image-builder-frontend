@@ -1,4 +1,3 @@
-import { Bootc } from './cockpit';
 import {
   Awss3UploadStatus,
   AwsUploadRequestOptions,
@@ -12,7 +11,8 @@ import {
   OciUploadStatus,
   UploadRequest,
   UploadStatus,
-} from './imageBuilderApi';
+} from './api/backend';
+import { Bootc } from './cockpit';
 
 import { IMAGE_MODE, targetOptions } from '../constants';
 

@@ -3,6 +3,8 @@ import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 
+import { CreateBlueprintRequest, ImageRequest } from '@/store/api/backend';
+
 import {
   AARCH64,
   CENTOS_9,
@@ -14,10 +16,6 @@ import {
   RHEL_9,
   X86_64,
 } from '../../../../../constants';
-import {
-  CreateBlueprintRequest,
-  ImageRequest,
-} from '../../../../../store/imageBuilderApi';
 import { mockArchitecturesByDistro } from '../../../../fixtures/architectures';
 import { mockBlueprintIds } from '../../../../fixtures/blueprints';
 import {
