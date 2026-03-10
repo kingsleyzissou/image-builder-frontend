@@ -3,9 +3,8 @@ import {
   imageBuilderApi,
 } from './hosted/enhancedImageBuilderApi';
 import * as serviceQueries from './hosted/imageBuilderApi';
-
-import * as composerQueries from '../../cockpit/composerApi';
-import { composerApi } from '../../cockpit/enhancedComposerApi';
+import * as composerQueries from './onprem/composerApi';
+import { composerApi } from './onprem/enhancedComposerApi';
 
 export const useGetArchitecturesQuery = process.env.IS_ON_PREMISE
   ? composerQueries.useGetArchitecturesQuery
