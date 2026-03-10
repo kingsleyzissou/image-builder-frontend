@@ -3,6 +3,7 @@ import {
   AwsUploadRequestOptions,
   AzureUploadRequestOptions,
   AzureUploadStatus,
+  Bootc,
   ComposesResponseItem,
   Distributions,
   GcpUploadRequestOptions,
@@ -12,7 +13,6 @@ import {
   UploadRequest,
   UploadStatus,
 } from './api/backend';
-import { Bootc } from './cockpit';
 
 import { IMAGE_MODE, targetOptions } from '../constants';
 
