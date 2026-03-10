@@ -41,7 +41,7 @@ import { BLUEPRINTS_DIR, IMAGE_MODE } from '../../constants';
 // inherit/import the `contentSourcesApi` and build on top of that.
 // This is fine since all the api endpoints for on-prem should query
 // the same unix socket. This allows us to split out the code a little
-// bit so that the `cockpitApi` doesn't become a monolith.
+// bit so that the `composerApi` doesn't become a monolith.
 import {
   BlueprintItem,
   ComposeBlueprintApiArg,
@@ -235,7 +235,7 @@ export const toCloudAPIComposeRequest = (
   };
 };
 
-export const cockpitApi = contentSourcesApi.injectEndpoints({
+export const composerApi = contentSourcesApi.injectEndpoints({
   endpoints: (builder) => {
     return {
       getArchitectures: builder.query<
@@ -935,4 +935,4 @@ export const {
   useUpdateWorkerConfigMutation,
   usePodmanImagesQuery,
   useLazyPodmanImagesQuery,
-} = cockpitApi;
+} = composerApi;
