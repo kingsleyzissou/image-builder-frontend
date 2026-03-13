@@ -15,6 +15,7 @@ import {
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
+import { setBlueprintId } from '@/store/slices/blueprint';
 import { selectIsOnPremise } from '@/store/slices/env';
 
 import { AMPLITUDE_MODULE_NAME } from '../../../../../constants';
@@ -23,7 +24,6 @@ import {
   useCreateBPWithNotification as useCreateBlueprintMutation,
   useGetUser,
 } from '../../../../../Hooks';
-import { setBlueprintId } from '../../../../../store/BlueprintSlice';
 import { CockpitCreateBlueprintRequest } from '../../../../../store/cockpit/types';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import {

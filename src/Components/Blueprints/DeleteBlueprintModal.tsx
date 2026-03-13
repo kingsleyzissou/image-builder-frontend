@@ -10,6 +10,13 @@ import {
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
+import {
+  selectBlueprintSearchInput,
+  selectLimit,
+  selectOffset,
+  selectSelectedBlueprintId,
+  setBlueprintId,
+} from '@/store/slices/blueprint';
 import { selectIsOnPremise } from '@/store/slices/env';
 
 import {
@@ -22,13 +29,6 @@ import {
   useGetUser,
 } from '../../Hooks';
 import { backendApi, useGetBlueprintsQuery } from '../../store/backendApi';
-import {
-  selectBlueprintSearchInput,
-  selectLimit,
-  selectOffset,
-  selectSelectedBlueprintId,
-  setBlueprintId,
-} from '../../store/BlueprintSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { GetBlueprintsApiArg } from '../../store/imageBuilderApi';
 

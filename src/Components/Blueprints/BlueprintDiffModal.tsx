@@ -10,10 +10,11 @@ import {
   ModalVariant,
 } from '@patternfly/react-core';
 
+import { selectSelectedBlueprintId } from '@/store/slices/blueprint';
+
 import { BuildImagesButton } from './BuildImagesButton';
 
 import { useGetBlueprintQuery } from '../../store/backendApi';
-import { selectSelectedBlueprintId } from '../../store/BlueprintSlice';
 import { useAppSelector } from '../../store/hooks';
 
 type blueprintDiffProps = {

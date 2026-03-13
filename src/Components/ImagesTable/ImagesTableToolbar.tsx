@@ -13,6 +13,11 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 
+import {
+  selectBlueprintSearchInput,
+  selectBlueprintVersionFilterAPI,
+  selectSelectedBlueprintId,
+} from '@/store/slices/blueprint';
 import { selectIsOnPremise } from '@/store/slices/env';
 
 import { useFixupBPWithNotification as useFixupBlueprintMutation } from '../../Hooks';
@@ -20,11 +25,6 @@ import {
   useGetBlueprintQuery,
   useGetBlueprintsQuery,
 } from '../../store/backendApi';
-import {
-  selectBlueprintSearchInput,
-  selectBlueprintVersionFilterAPI,
-  selectSelectedBlueprintId,
-} from '../../store/BlueprintSlice';
 import { useAppSelector } from '../../store/hooks';
 import {
   BlueprintItem,

@@ -7,11 +7,11 @@ import {
   provisioningApi,
   rhsmApi,
 } from './api';
-import { blueprintsSlice } from './BlueprintSlice';
 import { cockpitApi } from './cockpit/cockpitApi';
 import { listenerMiddleware, startAppListening } from './listenerMiddleware';
 import { imageBuilderApi } from './service/enhancedImageBuilderApi';
 import {
+  blueprintsSlice,
   cloudProviderConfigSlice,
   envSlice,
   selectIsOnPremise,

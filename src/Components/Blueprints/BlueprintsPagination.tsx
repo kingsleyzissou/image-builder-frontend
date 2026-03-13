@@ -3,14 +3,15 @@ import React from 'react';
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import { OnSetPage } from '@patternfly/react-core/dist/esm/components/Pagination/Pagination';
 
-import { useGetBlueprintsQuery } from '../../store/backendApi';
 import {
   selectBlueprintSearchInput,
   selectLimit,
   selectOffset,
   setBlueprintLimit,
   setBlueprintsOffset,
-} from '../../store/BlueprintSlice';
+} from '@/store/slices/blueprint';
+
+import { useGetBlueprintsQuery } from '../../store/backendApi';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { GetBlueprintsApiArg } from '../../store/imageBuilderApi';
 

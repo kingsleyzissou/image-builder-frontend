@@ -31,6 +31,15 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import cockpit from 'cockpit';
 import { useDispatch } from 'react-redux';
 
+import {
+  selectBlueprintSearchInput,
+  selectBlueprintVersionFilter,
+  selectBlueprintVersionFilterAPI,
+  selectLimit,
+  selectOffset,
+  selectSelectedBlueprintId,
+  setBlueprintId,
+} from '@/store/slices/blueprint';
 import { selectIsOnPremise } from '@/store/slices/env';
 
 import ImagesEmptyState from './EmptyState';
@@ -64,15 +73,6 @@ import {
   useGetComposesQuery,
   useGetComposeStatusQuery,
 } from '../../store/backendApi';
-import {
-  selectBlueprintSearchInput,
-  selectBlueprintVersionFilter,
-  selectBlueprintVersionFilterAPI,
-  selectLimit,
-  selectOffset,
-  selectSelectedBlueprintId,
-  setBlueprintId,
-} from '../../store/BlueprintSlice';
 import { LocalUploadStatus } from '../../store/cockpit/composerCloudApi';
 import { useAppSelector } from '../../store/hooks';
 import {

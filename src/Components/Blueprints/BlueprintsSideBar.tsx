@@ -20,6 +20,15 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import debounce from 'lodash/debounce';
 import { Link } from 'react-router-dom';
 
+import {
+  selectBlueprintSearchInput,
+  selectLimit,
+  selectOffset,
+  selectSelectedBlueprintId,
+  setBlueprintId,
+  setBlueprintSearchInput,
+  setBlueprintsOffset,
+} from '@/store/slices/blueprint';
 import { selectIsOnPremise, selectPathResolver } from '@/store/slices/env';
 
 import BlueprintCard from './BlueprintCard';
@@ -32,15 +41,6 @@ import {
 } from '../../constants';
 import { useGetUser } from '../../Hooks';
 import { useGetBlueprintsQuery } from '../../store/backendApi';
-import {
-  selectBlueprintSearchInput,
-  selectLimit,
-  selectOffset,
-  selectSelectedBlueprintId,
-  setBlueprintId,
-  setBlueprintSearchInput,
-  setBlueprintsOffset,
-} from '../../store/BlueprintSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import {
   BlueprintItem,

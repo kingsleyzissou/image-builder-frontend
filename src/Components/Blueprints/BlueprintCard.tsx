@@ -10,13 +10,13 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 
-import { selectIsOnPremise } from '@/store/slices/env';
-
-import { useDeleteBPWithNotification as useDeleteBlueprintMutation } from '../../Hooks';
 import {
   selectSelectedBlueprintId,
   setBlueprintId,
-} from '../../store/BlueprintSlice';
+} from '@/store/slices/blueprint';
+import { selectIsOnPremise } from '@/store/slices/env';
+
+import { useDeleteBPWithNotification as useDeleteBlueprintMutation } from '../../Hooks';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { BlueprintItem } from '../../store/imageBuilderApi';
 
