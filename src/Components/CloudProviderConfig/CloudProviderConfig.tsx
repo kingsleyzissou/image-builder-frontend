@@ -23,15 +23,16 @@ import {
 import { ExclamationIcon } from '@patternfly/react-icons';
 import { useAddNotification } from '@redhat-cloud-services/frontend-components-notifications';
 
-import { AWSConfig } from './AWSConfig';
-import { isAwsStepValid } from './validators';
-
 import {
   changeAWSBucketName,
   changeAWSCredsPath,
   reinitializeAWSConfig,
   selectAWSConfig,
-} from '../../store/cloudProviderConfigSlice';
+} from '@/store/slices/cloudConfig';
+
+import { AWSConfig } from './AWSConfig';
+import { isAwsStepValid } from './validators';
+
 import {
   useGetWorkerConfigQuery,
   useUpdateWorkerConfigMutation,

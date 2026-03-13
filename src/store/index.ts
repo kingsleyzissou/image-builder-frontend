@@ -8,11 +8,11 @@ import {
   rhsmApi,
 } from './api';
 import { blueprintsSlice } from './BlueprintSlice';
-import { cloudProviderConfigSlice } from './cloudProviderConfigSlice';
 import { cockpitApi } from './cockpit/cockpitApi';
 import { envSlice, selectIsOnPremise } from './envSlice';
 import { listenerMiddleware, startAppListening } from './listenerMiddleware';
 import { imageBuilderApi } from './service/enhancedImageBuilderApi';
+import { cloudProviderConfigSlice } from './slices';
 import { asDistribution } from './typeGuards';
 import wizardSlice, {
   changeArchitecture,

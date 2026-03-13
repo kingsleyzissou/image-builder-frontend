@@ -12,15 +12,16 @@ import {
 } from '@patternfly/react-core';
 import { HelpIcon } from '@patternfly/react-icons';
 
-import { isAwsBucketValid, isAwsCredsPathValid } from './validators';
-
 import {
   changeAWSBucketName,
   changeAWSCredsPath,
   reinitializeAWSConfig,
   selectAWSBucketName,
   selectAWSCredsPath,
-} from '../../store/cloudProviderConfigSlice';
+} from '@/store/slices/cloudConfig';
+
+import { isAwsBucketValid, isAwsCredsPathValid } from './validators';
+
 import {
   AWSWorkerConfig,
   WorkerConfigResponse,
