@@ -31,6 +31,8 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import cockpit from 'cockpit';
 import { useDispatch } from 'react-redux';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import ImagesEmptyState from './EmptyState';
 import {
   AwsDetails,
@@ -72,7 +74,6 @@ import {
   setBlueprintId,
 } from '../../store/BlueprintSlice';
 import { LocalUploadStatus } from '../../store/cockpit/composerCloudApi';
-import { selectIsOnPremise } from '../../store/envSlice';
 import { useAppSelector } from '../../store/hooks';
 import {
   BlueprintItem,

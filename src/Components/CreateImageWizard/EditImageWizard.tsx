@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { selectPathResolver } from '@/store/slices/env';
+
 import CreateImageWizard from './CreateImageWizard';
 import { mapRequestToState } from './utilities/requestMapper';
 
 import { useGetBlueprintQuery } from '../../store/backendApi';
-import { selectPathResolver } from '../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loadWizardState } from '../../store/wizardSlice';
 

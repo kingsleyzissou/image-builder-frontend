@@ -18,6 +18,8 @@ import { MenuToggleElement } from '@patternfly/react-core/dist/esm/components/Me
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { skipToken } from '@reduxjs/toolkit/query';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import { AMPLITUDE_MODULE_NAME, targetOptions } from '../../constants';
 import {
   useComposeBPWithNotification as useComposeBlueprintMutation,
@@ -25,7 +27,6 @@ import {
 } from '../../Hooks';
 import { useGetBlueprintQuery } from '../../store/backendApi';
 import { selectSelectedBlueprintId } from '../../store/BlueprintSlice';
-import { selectIsOnPremise } from '../../store/envSlice';
 import { useAppSelector } from '../../store/hooks';
 import { ImageTypes } from '../../store/imageBuilderApi';
 

@@ -15,6 +15,8 @@ import {
 } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import { useSelectorHandlers } from './useSelectorHandlers';
 
 import {
@@ -22,7 +24,6 @@ import {
   useGetOscapCustomizationsQuery,
   useLazyGetOscapCustomizationsQuery,
 } from '../../../../../store/backendApi';
-import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import {
   DistributionProfileItem,

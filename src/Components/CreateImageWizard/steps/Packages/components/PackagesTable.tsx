@@ -29,6 +29,7 @@ import { orderBy } from 'lodash';
 import { useDispatch } from 'react-redux';
 
 import { ApiRepositoryCollectionResponseRead } from '@/store/api/contentSources';
+import { selectIsOnPremise } from '@/store/slices/env';
 
 import EmptySearch from './EmptySearch';
 import NoResultsFound from './NoResultsFound';
@@ -38,7 +39,6 @@ import Searching from './Searching';
 import TooShort from './TooShort';
 import TryLookingUnderIncluded from './TryLookingUnderIncluded';
 
-import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppSelector } from '../../../../../store/hooks';
 import { Module } from '../../../../../store/imageBuilderApi';
 import {

@@ -18,7 +18,8 @@ import {
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import { useNavigate } from 'react-router-dom';
 
-import { selectPathResolver } from '../../store/envSlice';
+import { selectPathResolver } from '@/store/slices/env';
+
 import { useAppSelector } from '../../store/hooks';
 import {
   ComposesResponseItem,

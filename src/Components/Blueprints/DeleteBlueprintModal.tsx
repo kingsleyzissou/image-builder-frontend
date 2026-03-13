@@ -10,6 +10,8 @@ import {
 } from '@patternfly/react-core';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import {
   AMPLITUDE_MODULE_NAME,
   PAGINATION_LIMIT,
@@ -27,7 +29,6 @@ import {
   selectSelectedBlueprintId,
   setBlueprintId,
 } from '../../store/BlueprintSlice';
-import { selectIsOnPremise } from '../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { GetBlueprintsApiArg } from '../../store/imageBuilderApi';
 

@@ -4,6 +4,7 @@ import { CheckCircleIcon } from '@patternfly/react-icons';
 import { jwtDecode } from 'jwt-decode';
 
 import { useShowActivationKeyQuery } from '@/store/api/rhsm';
+import { selectIsOnPremise } from '@/store/slices/env';
 
 import { getListOfDuplicates } from './getListOfDuplicates';
 
@@ -13,7 +14,6 @@ import {
   UNIQUE_VALIDATION_DELAY,
 } from '../../../constants';
 import { useLazyGetBlueprintsQuery } from '../../../store/backendApi';
-import { selectIsOnPremise } from '../../../store/envSlice';
 import { useAppSelector } from '../../../store/hooks';
 import { BlueprintsResponse } from '../../../store/imageBuilderApi';
 import {

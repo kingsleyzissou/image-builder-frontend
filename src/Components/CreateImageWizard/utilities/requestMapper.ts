@@ -2,6 +2,7 @@ import { Store } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ApiRepositoryImportResponseRead } from '@/store/api/contentSources';
+import { selectIsOnPremise } from '@/store/slices/env';
 
 import { parseSizeUnit } from './parseSizeUnit';
 
@@ -26,7 +27,6 @@ import {
   CockpitImageRequest,
   CockpitUploadTypes,
 } from '../../../store/cockpit/types';
-import { selectIsOnPremise } from '../../../store/envSlice';
 import {
   AapRegistration,
   AwsUploadRequestOptions,

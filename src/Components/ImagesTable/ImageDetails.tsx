@@ -15,11 +15,11 @@ import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 import { useGetSourceListQuery } from '@/store/api/provisioning';
+import { selectIsOnPremise } from '@/store/slices/env';
 
 import { AMPLITUDE_MODULE_NAME } from '../../constants';
 import { useGetUser } from '../../Hooks';
 import { useGetComposeStatusQuery } from '../../store/backendApi';
-import { selectIsOnPremise } from '../../store/envSlice';
 import { extractProvisioningList } from '../../store/helpers';
 import { useAppSelector } from '../../store/hooks';
 import {

@@ -13,6 +13,8 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import { useFixupBPWithNotification as useFixupBlueprintMutation } from '../../Hooks';
 import {
   useGetBlueprintQuery,
@@ -23,7 +25,6 @@ import {
   selectBlueprintVersionFilterAPI,
   selectSelectedBlueprintId,
 } from '../../store/BlueprintSlice';
-import { selectIsOnPremise } from '../../store/envSlice';
 import { useAppSelector } from '../../store/hooks';
 import {
   BlueprintItem,

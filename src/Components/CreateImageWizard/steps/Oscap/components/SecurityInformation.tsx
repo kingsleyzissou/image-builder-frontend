@@ -10,11 +10,12 @@ import {
 } from '@patternfly/react-core';
 import { CheckCircleIcon, TimesCircleIcon } from '@patternfly/react-icons';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import {
   useGetComplianceCustomizationsQuery,
   useGetOscapCustomizationsQuery,
 } from '../../../../../store/backendApi';
-import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppSelector } from '../../../../../store/hooks';
 import {
   DistributionProfileItem,

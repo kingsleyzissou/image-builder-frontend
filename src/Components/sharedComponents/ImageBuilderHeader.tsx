@@ -9,10 +9,11 @@ import {
 } from '@redhat-cloud-services/frontend-components';
 import { useNavigate } from 'react-router-dom';
 
+import { selectIsOnPremise, selectPathResolver } from '@/store/slices/env';
+
 import { OSBUILD_SERVICE_ARCHITECTURE_URL } from '../../constants';
 import { useGetDocumentationUrl } from '../../Hooks';
 import { useBackendPrefetch } from '../../store/backendApi';
-import { selectIsOnPremise, selectPathResolver } from '../../store/envSlice';
 import { useAppSelector } from '../../store/hooks';
 import { selectDistribution } from '../../store/wizardSlice';
 import { ImportBlueprintModal } from '../Blueprints/ImportBlueprintModal';

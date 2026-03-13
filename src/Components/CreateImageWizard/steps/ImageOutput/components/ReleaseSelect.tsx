@@ -9,6 +9,8 @@ import {
   SelectOption,
 } from '@patternfly/react-core';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import {
   ON_PREM_RELEASES,
   RELEASES,
@@ -22,7 +24,6 @@ import {
   RHEL_9_FULL_SUPPORT,
   RHEL_9_MAINTENANCE_SUPPORT,
 } from '../../../../../constants';
-import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import { Distributions } from '../../../../../store/imageBuilderApi';
 import {

@@ -9,8 +9,9 @@ import {
   SelectOption,
 } from '@patternfly/react-core';
 
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import { ARCHES } from '../../../../../constants';
-import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import { ImageRequest } from '../../../../../store/imageBuilderApi';
 import {

@@ -4,7 +4,8 @@ import {
   TypedMutationTrigger,
 } from '@reduxjs/toolkit/dist/query/react';
 
-import { selectIsOnPremise } from '../../store/envSlice';
+import { selectIsOnPremise } from '@/store/slices/env';
+
 import { useAppSelector } from '../../store/hooks';
 import { errorMessage } from '../../store/service/enhancedImageBuilderApi';
 

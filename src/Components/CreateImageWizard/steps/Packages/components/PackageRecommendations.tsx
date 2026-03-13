@@ -24,9 +24,9 @@ import {
   useListRepositoriesQuery,
   useSearchRpmMutation,
 } from '@/store/api/contentSources';
+import { selectIsOnPremise } from '@/store/slices/env';
 
 import { AMPLITUDE_MODULE_NAME, ContentOrigin } from '../../../../../constants';
-import { selectIsOnPremise } from '../../../../../store/envSlice';
 import { useAppSelector } from '../../../../../store/hooks';
 import { useRecommendPackageMutation } from '../../../../../store/imageBuilderApi';
 import {
