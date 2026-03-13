@@ -16,6 +16,15 @@ import {
 import { TimesIcon } from '@patternfly/react-icons';
 
 import { selectIsOnPremise } from '@/store/slices/env';
+import {
+  changeFips,
+  changeFscMode,
+  clearKernelAppend,
+  selectComplianceProfileID,
+  selectComplianceType,
+  selectDistribution,
+  setOscapProfile,
+} from '@/store/slices/wizard';
 
 import { useSelectorHandlers } from './useSelectorHandlers';
 
@@ -32,15 +41,6 @@ import {
   OpenScapProfile,
 } from '../../../../../store/imageBuilderApi';
 import { asDistribution } from '../../../../../store/typeGuards';
-import {
-  changeFips,
-  changeFscMode,
-  clearKernelAppend,
-  selectComplianceProfileID,
-  selectComplianceType,
-  selectDistribution,
-  setOscapProfile,
-} from '../../../../../store/wizardSlice';
 import { removeBetaFromRelease } from '../removeBetaFromRelease';
 
 type OScapSelectOptionValueType = {

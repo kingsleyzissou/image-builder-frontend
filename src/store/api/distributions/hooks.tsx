@@ -4,13 +4,13 @@ import { simpleTargetNames } from '@/constants';
 import { useAppSelector } from '@/store/hooks';
 import { ImageTypes } from '@/store/imageBuilderApi';
 import { selectIsOnPremise } from '@/store/slices/env';
-import { isImageType } from '@/store/typeGuards';
 import {
   selectArchitecture,
   selectDistribution,
   selectImageTypes,
   selectIsImageMode,
-} from '@/store/wizardSlice';
+} from '@/store/slices/wizard';
+import { isImageType } from '@/store/typeGuards';
 import isRhel from '@/Utilities/isRhel';
 
 import { ALL_CUSTOMIZATIONS } from './constants';

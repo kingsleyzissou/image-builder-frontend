@@ -11,6 +11,14 @@ import {
 import { CheckCircleIcon, TimesCircleIcon } from '@patternfly/react-icons';
 
 import { selectIsOnPremise } from '@/store/slices/env';
+import {
+  selectCompliancePolicyID,
+  selectCompliancePolicyTitle,
+  selectComplianceProfileID,
+  selectComplianceType,
+  selectDistribution,
+  selectFips,
+} from '@/store/slices/wizard';
 
 import {
   useGetComplianceCustomizationsQuery,
@@ -22,14 +30,6 @@ import {
   OpenScapProfile,
 } from '../../../../../store/imageBuilderApi';
 import { asDistribution } from '../../../../../store/typeGuards';
-import {
-  selectCompliancePolicyID,
-  selectCompliancePolicyTitle,
-  selectComplianceProfileID,
-  selectComplianceType,
-  selectDistribution,
-  selectFips,
-} from '../../../../../store/wizardSlice';
 
 export const SecurityInformation = (): JSX.Element => {
   const release = useAppSelector(selectDistribution);

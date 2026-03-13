@@ -5,17 +5,6 @@ import { jwtDecode } from 'jwt-decode';
 
 import { useShowActivationKeyQuery } from '@/store/api/rhsm';
 import { selectIsOnPremise } from '@/store/slices/env';
-
-import { getListOfDuplicates } from './getListOfDuplicates';
-
-import {
-  SYSTEM_GROUPS,
-  UNDEFINED_GROUPS_WARNING_KEY,
-  UNIQUE_VALIDATION_DELAY,
-} from '../../../constants';
-import { useLazyGetBlueprintsQuery } from '../../../store/backendApi';
-import { useAppSelector } from '../../../store/hooks';
-import { BlueprintsResponse } from '../../../store/imageBuilderApi';
 import {
   MAX_REGULAR_GID,
   MIN_REGULAR_GID,
@@ -54,7 +43,18 @@ import {
   selectUserGroups,
   selectUsers,
   UserWithAdditionalInfo,
-} from '../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { getListOfDuplicates } from './getListOfDuplicates';
+
+import {
+  SYSTEM_GROUPS,
+  UNDEFINED_GROUPS_WARNING_KEY,
+  UNIQUE_VALIDATION_DELAY,
+} from '../../../constants';
+import { useLazyGetBlueprintsQuery } from '../../../store/backendApi';
+import { useAppSelector } from '../../../store/hooks';
+import { BlueprintsResponse } from '../../../store/imageBuilderApi';
 import {
   DiskPartition,
   FilesystemPartition,

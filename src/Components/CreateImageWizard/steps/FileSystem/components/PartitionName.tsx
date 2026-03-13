@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { changePartitionName } from '@/store/slices/wizard';
+
 import { useAppDispatch } from '../../../../../store/hooks';
 import { VolumeGroup } from '../../../../../store/imageBuilderApi';
-import { changePartitionName } from '../../../../../store/wizardSlice';
 import { useFilesystemValidation } from '../../../utilities/useValidation';
 import { ValidatedInputAndTextArea } from '../../../ValidatedInput';
 import {

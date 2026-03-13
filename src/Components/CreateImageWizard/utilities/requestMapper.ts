@@ -3,62 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { ApiRepositoryImportResponseRead } from '@/store/api/contentSources';
 import { selectIsOnPremise } from '@/store/slices/env';
-
-import { parseSizeUnit } from './parseSizeUnit';
-
-import {
-  CENTOS_9,
-  FIRST_BOOT_SERVICE_DATA,
-  FIRSTBOOT_PATH,
-  FIRSTBOOT_SERVICE_PATH,
-  IMAGE_MODE,
-  RHEL_10,
-  RHEL_8,
-  RHEL_9,
-  SATELLITE_PATH,
-  SATELLITE_SERVICE_DATA,
-  SATELLITE_SERVICE_PATH,
-} from '../../../constants';
-import { RootState } from '../../../store';
-import {
-  CockpitAwsUploadRequestOptions,
-  CockpitBlueprintResponse,
-  CockpitCreateBlueprintRequest,
-  CockpitImageRequest,
-  CockpitUploadTypes,
-} from '../../../store/cockpit/types';
-import {
-  AapRegistration,
-  AwsUploadRequestOptions,
-  AzureUploadRequestOptions,
-  BlueprintExportResponse,
-  BlueprintMetadata,
-  BlueprintResponse,
-  BtrfsVolume,
-  CreateBlueprintRequest,
-  Customizations,
-  CustomRepository,
-  Disk,
-  DistributionProfileItem,
-  Distributions,
-  File,
-  Filesystem,
-  FilesystemTyped,
-  GcpUploadRequestOptions,
-  Group,
-  ImageRequest,
-  ImageTypes,
-  LogicalVolume,
-  OpenScap,
-  OpenScapCompliance,
-  OpenScapProfile,
-  Services,
-  Subscription,
-  UploadTypes,
-  User,
-  VolumeGroup,
-} from '../../../store/imageBuilderApi';
-import { isImageMode as isImageModeDistribution } from '../../../store/typeGuards';
 import {
   ComplianceType,
   initialState,
@@ -126,7 +70,63 @@ import {
   selectUsers,
   UserWithAdditionalInfo,
   wizardState,
-} from '../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { parseSizeUnit } from './parseSizeUnit';
+
+import {
+  CENTOS_9,
+  FIRST_BOOT_SERVICE_DATA,
+  FIRSTBOOT_PATH,
+  FIRSTBOOT_SERVICE_PATH,
+  IMAGE_MODE,
+  RHEL_10,
+  RHEL_8,
+  RHEL_9,
+  SATELLITE_PATH,
+  SATELLITE_SERVICE_DATA,
+  SATELLITE_SERVICE_PATH,
+} from '../../../constants';
+import { RootState } from '../../../store';
+import {
+  CockpitAwsUploadRequestOptions,
+  CockpitBlueprintResponse,
+  CockpitCreateBlueprintRequest,
+  CockpitImageRequest,
+  CockpitUploadTypes,
+} from '../../../store/cockpit/types';
+import {
+  AapRegistration,
+  AwsUploadRequestOptions,
+  AzureUploadRequestOptions,
+  BlueprintExportResponse,
+  BlueprintMetadata,
+  BlueprintResponse,
+  BtrfsVolume,
+  CreateBlueprintRequest,
+  Customizations,
+  CustomRepository,
+  Disk,
+  DistributionProfileItem,
+  Distributions,
+  File,
+  Filesystem,
+  FilesystemTyped,
+  GcpUploadRequestOptions,
+  Group,
+  ImageRequest,
+  ImageTypes,
+  LogicalVolume,
+  OpenScap,
+  OpenScapCompliance,
+  OpenScapProfile,
+  Services,
+  Subscription,
+  UploadTypes,
+  User,
+  VolumeGroup,
+} from '../../../store/imageBuilderApi';
+import { isImageMode as isImageModeDistribution } from '../../../store/typeGuards';
 import isRhel from '../../../Utilities/isRhel';
 import { FscModeType } from '../steps/FileSystem';
 import {

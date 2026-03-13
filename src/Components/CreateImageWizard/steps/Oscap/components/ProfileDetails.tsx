@@ -10,6 +10,11 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 
+import {
+  selectComplianceProfileID,
+  selectDistribution,
+} from '@/store/slices/wizard';
+
 import { useGetOscapCustomizationsQuery } from '../../../../../store/backendApi';
 import { useAppSelector } from '../../../../../store/hooks';
 import {
@@ -18,10 +23,6 @@ import {
   OpenScapProfile,
 } from '../../../../../store/imageBuilderApi';
 import { asDistribution } from '../../../../../store/typeGuards';
-import {
-  selectComplianceProfileID,
-  selectDistribution,
-} from '../../../../../store/wizardSlice';
 import { removeBetaFromRelease } from '../removeBetaFromRelease';
 
 const ProfileDetails = (): JSX.Element => {

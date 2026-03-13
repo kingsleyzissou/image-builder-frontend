@@ -30,6 +30,16 @@ import { useDispatch } from 'react-redux';
 
 import { ApiRepositoryCollectionResponseRead } from '@/store/api/contentSources';
 import { selectIsOnPremise } from '@/store/slices/env';
+import {
+  addModule,
+  addPackage,
+  addPackageGroup,
+  removeModule,
+  removePackage,
+  removePackageGroup,
+  removeRecommendedRepository,
+  selectRecommendedRepositories,
+} from '@/store/slices/wizard';
 
 import EmptySearch from './EmptySearch';
 import NoResultsFound from './NoResultsFound';
@@ -41,16 +51,6 @@ import TryLookingUnderIncluded from './TryLookingUnderIncluded';
 
 import { useAppSelector } from '../../../../../store/hooks';
 import { Module } from '../../../../../store/imageBuilderApi';
-import {
-  addModule,
-  addPackage,
-  addPackageGroup,
-  removeModule,
-  removePackage,
-  removePackageGroup,
-  removeRecommendedRepository,
-  selectRecommendedRepositories,
-} from '../../../../../store/wizardSlice';
 import {
   GroupWithRepositoryInfo,
   IBPackageWithRepositoryInfo,

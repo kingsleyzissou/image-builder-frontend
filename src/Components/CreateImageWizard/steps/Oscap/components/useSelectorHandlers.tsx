@@ -1,8 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { FIRST_BOOT_SERVICE } from '../../../../../constants';
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
-import { Filesystem, Services } from '../../../../../store/imageBuilderApi';
 import {
   addKernelArg,
   addPackage,
@@ -15,7 +12,11 @@ import {
   clearPartitions,
   removePackage,
   selectServices,
-} from '../../../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { FIRST_BOOT_SERVICE } from '../../../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
+import { Filesystem, Services } from '../../../../../store/imageBuilderApi';
 import { parseSizeUnit } from '../../../utilities/parseSizeUnit';
 import { FilesystemPartition, Units } from '../../FileSystem/fscTypes';
 

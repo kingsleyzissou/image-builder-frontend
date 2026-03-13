@@ -10,6 +10,11 @@ import {
 } from '@patternfly/react-core';
 
 import { selectIsOnPremise } from '@/store/slices/env';
+import {
+  changeDistribution,
+  changeRegistrationType,
+  selectDistribution,
+} from '@/store/slices/wizard';
 
 import {
   ON_PREM_RELEASES,
@@ -26,11 +31,6 @@ import {
 } from '../../../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import { Distributions } from '../../../../../store/imageBuilderApi';
-import {
-  changeDistribution,
-  changeRegistrationType,
-  selectDistribution,
-} from '../../../../../store/wizardSlice';
 import isRhel from '../../../../../Utilities/isRhel';
 import { toMonthAndYear } from '../../../../../Utilities/time';
 

@@ -17,6 +17,7 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 
 import { setBlueprintId } from '@/store/slices/blueprint';
 import { selectIsOnPremise } from '@/store/slices/env';
+import { selectPackages } from '@/store/slices/wizard';
 
 import { AMPLITUDE_MODULE_NAME } from '../../../../../constants';
 import {
@@ -30,7 +31,6 @@ import {
   CreateBlueprintRequest,
   CreateBlueprintResponse,
 } from '../../../../../store/imageBuilderApi';
-import { selectPackages } from '../../../../../store/wizardSlice';
 import { createAnalytics } from '../../../../../Utilities/analytics';
 
 type CreateDropdownProps = {

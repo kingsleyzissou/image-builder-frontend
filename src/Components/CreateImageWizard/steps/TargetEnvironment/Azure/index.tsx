@@ -9,11 +9,6 @@ import {
 } from '@patternfly/react-core';
 import { ExternalLinkAltIcon } from '@patternfly/react-icons';
 
-import { AzureAuthButton } from './AzureAuthButton';
-import { AzureHyperVSelect } from './AzureHyperVSelect';
-
-import { AZURE_AUTH_URL } from '../../../../../constants';
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import {
   changeAzureResourceGroup,
   changeAzureSubscriptionId,
@@ -21,7 +16,13 @@ import {
   selectAzureResourceGroup,
   selectAzureSubscriptionId,
   selectAzureTenantId,
-} from '../../../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { AzureAuthButton } from './AzureAuthButton';
+import { AzureHyperVSelect } from './AzureHyperVSelect';
+
+import { AZURE_AUTH_URL } from '../../../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import { ValidatedInput } from '../../../ValidatedInput';
 import {
   isAzureResourceGroupValid,

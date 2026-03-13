@@ -9,11 +9,12 @@ import {
   SelectOption,
 } from '@patternfly/react-core';
 
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import {
   changeAzureHyperVGeneration,
   selectAzureHyperVGeneration,
-} from '../../../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 
 export const AzureHyperVSelect = () => {
   const hyperVGeneration = useAppSelector(selectAzureHyperVGeneration);

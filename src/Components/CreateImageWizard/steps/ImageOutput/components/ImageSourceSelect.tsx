@@ -20,14 +20,15 @@ import {
 } from '@patternfly/react-core';
 import { SyncAltIcon } from '@patternfly/react-icons';
 
-import { RHEL_10_IMAGE_MODE_IMAGE } from '../../../../../constants';
-import { usePodmanImagesQuery } from '../../../../../store/cockpit/cockpitApi';
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 import {
   changeImageSource,
   ImageSource,
   selectImageSource,
-} from '../../../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { RHEL_10_IMAGE_MODE_IMAGE } from '../../../../../constants';
+import { usePodmanImagesQuery } from '../../../../../store/cockpit/cockpitApi';
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
 
 const CopyInlineCompact = ({ text }: { text: string }) => (
   <ClipboardCopy

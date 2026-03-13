@@ -23,6 +23,27 @@ import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
 import { usePoliciesQuery } from '@/store/api/compliance';
 import { useCustomizationRestrictions } from '@/store/api/distributions';
 import { selectIsOnPremise } from '@/store/slices/env';
+import {
+  changeComplianceType,
+  changeDisabledServices,
+  changeEnabledServices,
+  changeFips,
+  changeFscMode,
+  changeMaskedServices,
+  clearKernelAppend,
+  ComplianceType,
+  removePackage,
+  selectCompliancePolicyID,
+  selectComplianceProfileID,
+  selectComplianceType,
+  selectDistribution,
+  selectFips,
+  selectImageTypes,
+  selectRegistrationType,
+  selectServices,
+  setCompliancePolicy,
+  setOscapProfile,
+} from '@/store/slices/wizard';
 
 import OscapOnPremSpinner from './components/OnPremSpinner';
 import OscapOnPremWarning from './components/OnPremWarning';
@@ -46,27 +67,6 @@ import {
 } from '../../../../store/backendApi';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import { asDistribution } from '../../../../store/typeGuards';
-import {
-  changeComplianceType,
-  changeDisabledServices,
-  changeEnabledServices,
-  changeFips,
-  changeFscMode,
-  changeMaskedServices,
-  clearKernelAppend,
-  ComplianceType,
-  removePackage,
-  selectCompliancePolicyID,
-  selectComplianceProfileID,
-  selectComplianceType,
-  selectDistribution,
-  selectFips,
-  selectImageTypes,
-  selectRegistrationType,
-  selectServices,
-  setCompliancePolicy,
-  setOscapProfile,
-} from '../../../../store/wizardSlice';
 import { useOnPremOpenSCAPAvailable } from '../../../../Utilities/useOnPremOpenSCAP';
 import { CustomizationLabels } from '../../../sharedComponents/CustomizationLabels';
 import ExternalLinkButton from '../../utilities/ExternalLinkButton';

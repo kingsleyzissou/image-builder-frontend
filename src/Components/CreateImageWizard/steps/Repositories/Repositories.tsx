@@ -30,6 +30,22 @@ import {
   useListRepositoryParametersQuery,
   useListSnapshotsByDateMutation,
 } from '@/store/api/contentSources';
+import {
+  changeCustomRepositories,
+  changePayloadRepositories,
+  changeRedHatRepositories,
+  selectArchitecture,
+  selectCustomRepositories,
+  selectDistribution,
+  selectGroups,
+  selectPackages,
+  selectPayloadRepositories,
+  selectRecommendedRepositories,
+  selectSnapshotDate,
+  selectTemplate,
+  selectUseLatest,
+  selectWizardMode,
+} from '@/store/slices/wizard';
 
 import { BulkSelect } from './components/BulkSelect';
 import CommunityRepositoryLabel from './components/CommunityRepositoryLabel';
@@ -52,22 +68,6 @@ import {
   TEMPLATES_URL,
 } from '../../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
-import {
-  changeCustomRepositories,
-  changePayloadRepositories,
-  changeRedHatRepositories,
-  selectArchitecture,
-  selectCustomRepositories,
-  selectDistribution,
-  selectGroups,
-  selectPackages,
-  selectPayloadRepositories,
-  selectRecommendedRepositories,
-  selectSnapshotDate,
-  selectTemplate,
-  selectUseLatest,
-  selectWizardMode,
-} from '../../../../store/wizardSlice';
 import { releaseToVersion } from '../../../../Utilities/releaseToVersion';
 import { requiredRedHatRepos } from '../../../../Utilities/requiredRedHatRepos';
 import {

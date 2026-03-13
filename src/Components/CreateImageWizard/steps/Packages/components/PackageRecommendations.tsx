@@ -25,16 +25,16 @@ import {
   useSearchRpmMutation,
 } from '@/store/api/contentSources';
 import { selectIsOnPremise } from '@/store/slices/env';
-
-import { AMPLITUDE_MODULE_NAME, ContentOrigin } from '../../../../../constants';
-import { useAppSelector } from '../../../../../store/hooks';
-import { useRecommendPackageMutation } from '../../../../../store/imageBuilderApi';
 import {
   addPackage,
   selectArchitecture,
   selectDistribution,
   selectPackages,
-} from '../../../../../store/wizardSlice';
+} from '@/store/slices/wizard';
+
+import { AMPLITUDE_MODULE_NAME, ContentOrigin } from '../../../../../constants';
+import { useAppSelector } from '../../../../../store/hooks';
+import { useRecommendPackageMutation } from '../../../../../store/imageBuilderApi';
 import { releaseToVersion } from '../../../../../Utilities/releaseToVersion';
 import useDebounce from '../../../../../Utilities/useDebounce';
 

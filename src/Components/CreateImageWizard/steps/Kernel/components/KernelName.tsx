@@ -14,11 +14,9 @@ import {
   TextInputGroupMain,
 } from '@patternfly/react-core/dist/esm';
 
+import { changeKernelName, selectKernel } from '@/store/slices/wizard';
+
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
-import {
-  changeKernelName,
-  selectKernel,
-} from '../../../../../store/wizardSlice';
 import { useKernelValidation } from '../../../utilities/useValidation';
 import { isKernelNameValid } from '../../../validators';
 

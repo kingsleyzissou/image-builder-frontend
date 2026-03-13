@@ -25,6 +25,18 @@ import {
   useSearchRpmMutation,
 } from '@/store/api/contentSources';
 import { selectIsOnPremise } from '@/store/slices/env';
+import {
+  addPackage,
+  selectArchitecture,
+  selectCustomRepositories,
+  selectDistribution,
+  selectGroups,
+  selectModules,
+  selectPackages,
+  selectSnapshotDate,
+  selectTemplate,
+  selectWizardMode,
+} from '@/store/slices/wizard';
 
 import CustomHelperText from './CustomHelperText';
 import PackagesTable from './PackagesTable';
@@ -38,18 +50,6 @@ import {
 import { useGetArchitecturesQuery } from '../../../../../store/backendApi';
 import { useAppSelector } from '../../../../../store/hooks';
 import { asDistribution } from '../../../../../store/typeGuards';
-import {
-  addPackage,
-  selectArchitecture,
-  selectCustomRepositories,
-  selectDistribution,
-  selectGroups,
-  selectModules,
-  selectPackages,
-  selectSnapshotDate,
-  selectTemplate,
-  selectWizardMode,
-} from '../../../../../store/wizardSlice';
 import { getEpelUrlForDistribution } from '../../../../../Utilities/epel';
 import { convertStringToDate } from '../../../../../Utilities/time';
 import useDebounce from '../../../../../Utilities/useDebounce';
