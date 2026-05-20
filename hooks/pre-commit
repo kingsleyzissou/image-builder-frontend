@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Pre-commit hook: runs eslint, circular dependency check, and typecheck
+# These catch most issues without the time cost of running tests
+
+set -e
+
+echo "Running pre-commit checks..."
+
+# Find the worktree root (where package.json lives)
+WORKTREE_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+
+if [ -z "$WORKTREE_ROOT" ] || [ ! -f "$WORKTREE_ROOT/package.json" ]; then
+    echo "Error: Could not find worktree root with package.json"
+    exit 1
+fi
+
+cd "$WORKTREE_ROOT"
+
+echo "==> ESLint"
+npm run lint:js
+
+echo "==> Circular dependency check"
+npm run circular
+
+echo "==> TypeScript type check"
+npm run types
+
+echo "All pre-commit checks passed!"
