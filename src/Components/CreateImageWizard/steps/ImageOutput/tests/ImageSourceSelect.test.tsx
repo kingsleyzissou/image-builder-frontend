@@ -21,6 +21,7 @@ import {
   mockBootcDistributionsMixed,
   mockBootcDistributionsMultipleTypes,
   mockBootcDistributionsNoRhel10,
+  mockBootcDistributionsOfficial,
   mockBootcDistributionsWithMinorVersions,
 } from './mocks';
 
@@ -611,6 +612,72 @@ describe('ImageSourceSelect', () => {
         name: /red hat enterprise linux \(rhel\) 10/i,
       });
       expect(options).toHaveLength(1);
+    });
+  });
+
+  describe('Staleness indicator', () => {
+    beforeEach(() => {
+      mockUseGetDistributionsQuery.mockReturnValue({
+        data: mockBootcDistributionsOfficial,
+        isLoading: false,
+        isError: false,
+        refetch: mockRefetch,
+      });
+    });
+
+    test('shows update available in dropdown for official images', async () => {
+      renderImageSourceSelect();
+      const user = createUser();
+
+      const toggle = await screen.findByRole('button', {
+        name: /red hat enterprise linux \(rhel\) 10/i,
+      });
+      await clickWithWait(user, toggle);
+
+      // 2 in dropdown options + 1 on the toggle (selected image is stale)
+      const labels = screen.getAllByText('Update available');
+      expect(labels).toHaveLength(3);
+    });
+
+    test('does not show staleness indicator for non-official images', async () => {
+      mockUseGetDistributionsQuery.mockReturnValue({
+        data: mockBootcDistributions,
+        isLoading: false,
+        isError: false,
+        refetch: mockRefetch,
+      });
+
+      renderImageSourceSelect();
+      const user = createUser();
+
+      const toggle = await screen.findByRole('button', {
+        name: /red hat enterprise linux \(rhel\) 10/i,
+      });
+      await clickWithWait(user, toggle);
+
+      const options = screen.getAllByRole('option');
+      expect(options[0]).not.toHaveTextContent('Update available');
+      expect(options[1]).not.toHaveTextContent('Update available');
+    });
+
+    test('does not show staleness indicator in hosted mode', async () => {
+      mockUseGetDistributionsQuery.mockReturnValue({
+        data: mockBootcDistributionsOfficial,
+        isLoading: false,
+        isError: false,
+        refetch: mockRefetch,
+      });
+
+      renderHostedImageSourceSelect();
+      const user = createUser();
+
+      const toggle = await screen.findByRole('button', {
+        name: /red hat enterprise linux \(rhel\) 10/i,
+      });
+      await clickWithWait(user, toggle);
+
+      const options = screen.getAllByRole('option');
+      expect(options[0]).not.toHaveTextContent('Update available');
     });
   });
 });

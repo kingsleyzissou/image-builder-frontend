@@ -134,6 +134,13 @@ export const ON_PREM_RELEASES = new Map([
 export const RHEL_10_IMAGE_MODE_IMAGE =
   'registry.redhat.io/rhel10/rhel-bootc:10.2';
 
+// Official bootc image references that support staleness detection.
+// TODO: replace with real registry refs and digest comparison post-GA.
+export const OFFICIAL_BOOTC_REFS = new Set([
+  'localhost/rhel-bootc-kvm',
+  'localhost/rhel-bootc-aws',
+]);
+
 export const RHEL_10_FULL_SUPPORT = ['2025-05-13', '2030-05-31'];
 export const RHEL_9_FULL_SUPPORT = ['2022-05-18', '2027-05-31'];
 export const RHEL_8_FULL_SUPPORT = ['2019-05-07', '2024-05-31'];

@@ -9,6 +9,7 @@ import {
   Flex,
   FlexItem,
   FormGroup,
+  Label,
   MenuToggle,
   MenuToggleElement,
   Select,
@@ -18,7 +19,7 @@ import {
 } from '@patternfly/react-core';
 import { SyncAltIcon } from '@patternfly/react-icons';
 
-import { RHEL_10_IMAGE_MODE_IMAGE } from '@/constants';
+import { OFFICIAL_BOOTC_REFS, RHEL_10_IMAGE_MODE_IMAGE } from '@/constants';
 import {
   BootcDistributionItem,
   useGetDistributionsQuery,
@@ -136,6 +137,16 @@ const ImageSourceSelect = () => {
     (d) => d.reference === imageSource,
   );
 
+  // TODO: replace with real digest comparison post-GA
+  const isStale = (ref: string) => {
+    const base = ref.split(':')[0];
+    return OFFICIAL_BOOTC_REFS.has(base);
+  };
+
+  const selectedIsStale = selectedItem
+    ? isStale(selectedItem.reference)
+    : false;
+
   const onSelect = (_event?: React.MouseEvent, selection?: string | number) => {
     dispatch(changeImageSource(selection as string));
     const selected = bootcDistributions?.find((d) => d.reference === selection);
@@ -174,6 +185,11 @@ const ImageSourceSelect = () => {
         }
       >
         {selectedItem ? selectedItem.name : 'Select a bootc image'}
+        {selectedIsStale && (
+          <Label color='blue' isCompact className='pf-v6-u-ml-sm'>
+            Update available
+          </Label>
+        )}
       </MenuToggle>
     );
   };
@@ -227,7 +243,18 @@ const ImageSourceSelect = () => {
             <SelectList>
               {uniqueDistributions && uniqueDistributions.length > 0 ? (
                 uniqueDistributions.map((item) => (
-                  <SelectOption key={item.reference} value={item.reference}>
+                  <SelectOption
+                    key={item.reference}
+                    value={item.reference}
+                    description={isOnPremise ? item.reference : undefined}
+                    actions={
+                      isOnPremise && isStale(item.reference) ? (
+                        <Label color='blue' isCompact className='pf-v6-u-mr-md'>
+                          Update available
+                        </Label>
+                      ) : undefined
+                    }
+                  >
                     {item.name}
                   </SelectOption>
                 ))
