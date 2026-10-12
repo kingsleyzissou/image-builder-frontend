@@ -41,6 +41,7 @@ import {
   selectDiskMinsize,
   selectDiskPartitions,
   selectFilesystemPartitions,
+  selectFilesystemSlice,
   selectFscMode,
   selectGcpAccountType,
   selectGcpEmail,
@@ -60,6 +61,7 @@ import {
   selectUsers,
   selectUsersSlice,
   UserWithAdditionalInfo,
+  validateFilesystemSlice,
   validateSystemSlice,
   validateUsersSlice,
 } from '@/store/slices/wizard';
@@ -115,7 +117,6 @@ export type UsersStepValidation = {
 export function useIsBlueprintValid(): boolean {
   const aap = useAAPValidation();
   const registration = useRegistrationValidation();
-  const filesystem = useFilesystemValidation();
   const snapshot = useSnapshotValidation();
   const details = useDetailsValidation();
   const users = useUsersValidation();
@@ -126,6 +127,13 @@ export function useIsBlueprintValid(): boolean {
   const { restrictions } = useCustomizationRestrictions({
     selectedImageTypes: targetEnvironments,
   });
+
+  const filesystem = useAppSelector(selectFilesystemSlice);
+  const { errors: filesystemErrors } = validateFilesystemSlice(
+    filesystem,
+    'package',
+    restrictions.filesystem.shouldHide,
+  );
 
   const system = useAppSelector(selectSystem);
   const { errors: systemErrors } = validateSystemSlice(system);
@@ -139,7 +147,7 @@ export function useIsBlueprintValid(): boolean {
   return (
     !aap.disabledNext &&
     !registration.disabledNext &&
-    !filesystem.disabledNext &&
+    filesystemErrors.length === 0 &&
     !snapshot.disabledNext &&
     systemErrors.length === 0 &&
     !details.disabledNext &&

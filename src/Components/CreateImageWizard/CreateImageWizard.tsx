@@ -55,6 +55,7 @@ import {
   loadWizardState,
   parseStateFromRequest,
   selectDistribution,
+  selectFilesystemSlice,
   selectHasPendingInputs,
   selectImageSource,
   selectImageSourceType,
@@ -63,6 +64,7 @@ import {
   selectSystem,
   selectTimezone,
   selectUsersSlice,
+  validateFilesystemSlice,
   validateSystemSlice,
   validateUsersSlice,
 } from '@/store/slices/wizard';
@@ -102,7 +104,6 @@ import {
   useAwsValidation,
   useAzureValidation,
   useDetailsValidation,
-  useFilesystemValidation,
   useGcpValidation,
   useImagePullValidation,
   useRegistrationValidation,
@@ -152,7 +153,6 @@ const CreateImageWizard = () => {
   const detailsValidation = useDetailsValidation();
   const registrationValidation = useRegistrationValidation();
   const snapshotValidation = useSnapshotValidation();
-  const filesystemValidation = useFilesystemValidation();
   const usersValidation = useUsersValidation();
   const imagePullValidation = useImagePullValidation();
 
@@ -161,6 +161,13 @@ const CreateImageWizard = () => {
   const { restrictions } = useCustomizationRestrictions({
     selectedImageTypes: targetEnvironments,
   });
+
+  const filesystem = useAppSelector(selectFilesystemSlice);
+  const { errors: filesystemErrors } = validateFilesystemSlice(
+    filesystem,
+    isImageMode ? 'image' : 'package',
+    restrictions.filesystem.shouldHide,
+  );
 
   const system = useAppSelector(selectSystem);
   const { errors: systemErrors } = validateSystemSlice(system);
@@ -191,7 +198,7 @@ const CreateImageWizard = () => {
   const baseSettingsIsPending = !!detailsValidation.isPending;
 
   const advancedSettingsHasErrors =
-    filesystemValidation.disabledNext ||
+    filesystemErrors.length > 0 ||
     systemErrors.length > 0 ||
     hasPendingInputs ||
     (!restrictions.users.shouldHide && usersValidation.disabledNext) ||
