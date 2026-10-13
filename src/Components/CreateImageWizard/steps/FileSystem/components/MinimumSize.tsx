@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@patternfly/react-core';
 
-import { useFilesystemValidation } from '@/Components/CreateImageWizard/utilities/useValidation';
-import { ValidatedInputAndTextArea } from '@/Components/ValidatedInputs';
+import { ValidatedTextInput } from '@/Components/ValidatedInputs';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectComplianceType } from '@/store/slices';
 import {
   changePartitionMinSize,
-  changePartitionUnit,
   DiskPartition,
   FilesystemPartition,
+  validateRequiredMinsize,
 } from '@/store/slices/wizard';
 
 type MinimumSizeProps = {
@@ -25,38 +24,34 @@ const MinimumSize = ({
   oscapMinSizeLabel,
 }: MinimumSizeProps) => {
   const dispatch = useAppDispatch();
+  const [minsize, setMinsize] = useState(partition.min_size ?? '');
   const complianceType = useAppSelector(selectComplianceType);
-  const stepValidation = useFilesystemValidation();
+
+  useEffect(() => {
+    // Reset the minsize when the partition changes externally.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMinsize(partition.min_size ?? '');
+  }, [partition]);
 
   const sizeInput = (
-    <ValidatedInputAndTextArea
+    <ValidatedTextInput
+      id={`min-size-${partition.id}`}
       ariaLabel='minimum partition size'
-      value={partition.min_size || ''}
-      isDisabled={partition.unit === 'B'}
-      warning={
-        partition.unit === 'B'
-          ? 'The Wizard only supports MiB or GiB. Adjust or keep the current value.'
-          : ''
-      }
-      type='text'
       placeholder='Define minimum size'
-      stepValidation={stepValidation}
-      fieldName={`min-size-${partition.id}`}
-      onChange={(_, minSize) => {
-        if (minSize === '' || /^\d+$/.test(minSize)) {
-          dispatch(
-            changePartitionMinSize({
-              id: partition.id,
-              min_size: minSize,
-            }),
-          );
-          dispatch(
-            changePartitionUnit({
-              id: partition.id,
-              unit: partition.unit || 'GiB',
-            }),
-          );
-        }
+      value={minsize}
+      onChange={(_, value) => setMinsize(value)}
+      validator={(value) =>
+        validateRequiredMinsize(value, partition.unit || 'GiB')
+      }
+      onCommit={(candidate) => {
+        if (!candidate) return;
+
+        dispatch(
+          changePartitionMinSize({
+            id: partition.id,
+            min_size: candidate,
+          }),
+        );
       }}
     />
   );
