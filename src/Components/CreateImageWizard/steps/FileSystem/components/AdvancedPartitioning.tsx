@@ -20,12 +20,10 @@ import {
   addDiskPartition,
   changeDiskMinsize,
   changeDiskUnit,
-  getNextAvailableMountpoint,
   selectDiskMinsize,
   selectDiskPartitions,
   selectDiskUnit,
-  selectFilesystemPartitions,
-  selectIsImageMode,
+  selectSuggestedMountpoint,
   Units,
   validateOptionalMinsize,
 } from '@/store/slices/wizard';
@@ -40,8 +38,7 @@ const AdvancedPartitioning = () => {
   const minsize = useAppSelector(selectDiskMinsize);
   const unit = useAppSelector(selectDiskUnit);
   const diskPartitions = useAppSelector(selectDiskPartitions);
-  const filesystemPartitions = useAppSelector(selectFilesystemPartitions);
-  const inImageMode = useAppSelector(selectIsImageMode);
+  const nextMountpoint = useAppSelector(selectSuggestedMountpoint);
   const [isOpen, setIsOpen] = useState(false);
   const [diskSize, setDiskSize] = useState(minsize ?? '');
 
@@ -51,11 +48,6 @@ const AdvancedPartitioning = () => {
 
   const handleAddPartition = () => {
     const id = crypto.randomUUID();
-    const mountpoint = getNextAvailableMountpoint(
-      filesystemPartitions,
-      diskPartitions,
-      inImageMode,
-    );
     dispatch(
       addDiskPartition({
         id,
@@ -63,7 +55,7 @@ const AdvancedPartitioning = () => {
         min_size: '1',
         unit: 'GiB',
         type: 'plain',
-        mountpoint,
+        mountpoint: nextMountpoint,
       }),
     );
   };

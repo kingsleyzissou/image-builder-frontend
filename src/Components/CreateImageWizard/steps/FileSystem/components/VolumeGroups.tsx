@@ -17,11 +17,8 @@ import {
   addDiskPartition,
   addLogicalVolumeToVolumeGroup,
   changeDiskPartitionName,
-  getNextAvailableMountpoint,
   removeDiskPartition,
-  selectDiskPartitions,
-  selectFilesystemPartitions,
-  selectIsImageMode,
+  selectSuggestedMountpoint,
   type VolumeGroup,
 } from '@/store/slices/wizard';
 
@@ -36,9 +33,7 @@ type VolumeGroupsProps = {
 const VolumeGroups = ({ volumeGroup: vg }: VolumeGroupsProps) => {
   const dispatch = useAppDispatch();
   const stepValidation = useFilesystemValidation();
-  const filesystemPartitions = useAppSelector(selectFilesystemPartitions);
-  const diskPartitions = useAppSelector(selectDiskPartitions);
-  const inImageMode = useAppSelector(selectIsImageMode);
+  const nextMountpoint = useAppSelector(selectSuggestedMountpoint);
 
   // Only one volume group is supported
   const [isExpanded, setIsExpanded] = useState(!!vg);
@@ -49,11 +44,6 @@ const VolumeGroups = ({ volumeGroup: vg }: VolumeGroupsProps) => {
     if (isExpanded && !vg) {
       const vgId = crypto.randomUUID();
       const lvId = crypto.randomUUID();
-      const mountpoint = getNextAvailableMountpoint(
-        filesystemPartitions,
-        diskPartitions,
-        inImageMode,
-      );
       dispatch(
         addDiskPartition({
           id: vgId,
@@ -65,7 +55,7 @@ const VolumeGroups = ({ volumeGroup: vg }: VolumeGroupsProps) => {
             {
               id: lvId,
               name: '',
-              mountpoint,
+              mountpoint: nextMountpoint,
               min_size: '1',
               unit: 'GiB',
               fs_type: 'xfs',
@@ -80,18 +70,13 @@ const VolumeGroups = ({ volumeGroup: vg }: VolumeGroupsProps) => {
 
   const handleAddLogicalVolume = (vgId: string) => {
     const id = crypto.randomUUID();
-    const mountpoint = getNextAvailableMountpoint(
-      filesystemPartitions,
-      diskPartitions,
-      inImageMode,
-    );
     dispatch(
       addLogicalVolumeToVolumeGroup({
         vgId: vgId,
         logicalVolume: {
           id,
           name: '',
-          mountpoint,
+          mountpoint: nextMountpoint,
           min_size: '1',
           unit: 'GiB',
           fs_type: 'xfs',

@@ -6,34 +6,25 @@ import { AddCircleOIcon } from '@patternfly/react-icons';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   addPartition,
-  getNextAvailableMountpoint,
-  selectBlueprintMode,
-  selectDiskPartitions,
   selectFilesystemPartitions,
+  selectSuggestedMountpoint,
 } from '@/store/slices/wizard';
 
 import FileSystemTable from './FileSystemTable';
 import PartitioningMode from './PartitioningMode';
 
 const FileSystemConfiguration = () => {
-  const blueprintMode = useAppSelector(selectBlueprintMode);
   const filesystemPartitions = useAppSelector(selectFilesystemPartitions);
-  const diskPartitions = useAppSelector(selectDiskPartitions);
-  const inImageMode = blueprintMode === 'image';
+  const nextMountpoint = useAppSelector(selectSuggestedMountpoint);
 
   const dispatch = useAppDispatch();
 
   const handleAddPartition = () => {
     const id = crypto.randomUUID();
-    const mountpoint = getNextAvailableMountpoint(
-      filesystemPartitions,
-      diskPartitions,
-      inImageMode,
-    );
     dispatch(
       addPartition({
         id,
-        mountpoint,
+        mountpoint: nextMountpoint,
         min_size: '1',
         unit: 'GiB',
       }),

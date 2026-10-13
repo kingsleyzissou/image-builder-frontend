@@ -14,12 +14,9 @@ import {
   changePartitionType,
   FILESYSTEM_TYPES,
   FilesystemType,
-  getNextAvailableMountpoint,
   isPartitionTypeAvailable,
   LogicalVolume,
-  selectDiskPartitions,
-  selectFilesystemPartitions,
-  selectIsImageMode,
+  selectSuggestedMountpoint,
 } from '@/store/slices/wizard';
 
 type PartitionTypeProps = {
@@ -29,9 +26,8 @@ type PartitionTypeProps = {
 const PartitionType = ({ partition }: PartitionTypeProps) => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const filesystemPartitions = useAppSelector(selectFilesystemPartitions);
-  const diskPartitions = useAppSelector(selectDiskPartitions);
-  const isImageMode = useAppSelector(selectIsImageMode);
+  const nextMountpoint = useAppSelector(selectSuggestedMountpoint);
+
   const onSelect = (_?: React.MouseEvent, selection?: string | number) => {
     if (selection === undefined) return;
 
@@ -45,15 +41,10 @@ const PartitionType = ({ partition }: PartitionTypeProps) => {
     }
 
     if (partition.mountpoint === '' && selection !== 'swap') {
-      const mountpoint = getNextAvailableMountpoint(
-        filesystemPartitions,
-        diskPartitions,
-        isImageMode,
-      );
       dispatch(
         changePartitionMountpoint({
           id: partition.id,
-          mountpoint,
+          mountpoint: nextMountpoint,
         }),
       );
     }
