@@ -2,6 +2,7 @@ import {
   filesystemSchemas,
   FilesystemSlice,
   type Minsize,
+  nameSchema,
   optionalMinsizeSchema,
   requiredMinsizeSchema,
   type Units,
@@ -32,6 +33,15 @@ export const validateOptionalMinsize = (
   size: Minsize,
 ): ValidationResult<Minsize> => {
   const result = validateSchema(optionalMinsizeSchema, size);
+
+  return {
+    data: result.data,
+    errors: result.issues,
+  };
+};
+
+export const validatePartitionName = (name: string) => {
+  const result = validateSchema(nameSchema, name);
 
   return {
     data: result.data,
