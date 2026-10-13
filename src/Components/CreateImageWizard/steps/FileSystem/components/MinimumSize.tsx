@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@patternfly/react-core';
 
-import { useFilesystemValidation } from '@/Components/CreateImageWizard/utilities/useValidation';
-import { ValidatedInputAndTextArea } from '@/Components/ValidatedInputs';
+import { ValidatedTextInput } from '@/Components/ValidatedInputs';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectComplianceType } from '@/store/slices';
 import {
   changePartitionMinSize,
-  changePartitionUnit,
   DiskPartition,
   FilesystemPartition,
+  selectBlueprintMode,
+  validateFilesystemPartition,
 } from '@/store/slices/wizard';
 
 type MinimumSizeProps = {
@@ -25,38 +25,42 @@ const MinimumSize = ({
   oscapMinSizeLabel,
 }: MinimumSizeProps) => {
   const dispatch = useAppDispatch();
+  const [draft, setDraft] = useState({
+    min_size: partition.min_size ?? '',
+    unit: partition.unit || 'GiB',
+  });
   const complianceType = useAppSelector(selectComplianceType);
-  const stepValidation = useFilesystemValidation();
+  const blueprintMode = useAppSelector(selectBlueprintMode);
+
+  useEffect(() => {
+    setDraft({
+      min_size: partition.min_size ?? '',
+      unit: partition.unit || 'GiB',
+    });
+  }, [partition]);
 
   const sizeInput = (
-    <ValidatedInputAndTextArea
+    <ValidatedTextInput
+      id={`min-size-${partition.id}`}
       ariaLabel='minimum partition size'
-      value={partition.min_size || ''}
-      isDisabled={partition.unit === 'B'}
-      warning={
-        partition.unit === 'B'
-          ? 'The Wizard only supports MiB or GiB. Adjust or keep the current value.'
-          : ''
-      }
-      type='text'
       placeholder='Define minimum size'
-      stepValidation={stepValidation}
-      fieldName={`min-size-${partition.id}`}
-      onChange={(_, minSize) => {
-        if (minSize === '' || /^\d+$/.test(minSize)) {
-          dispatch(
-            changePartitionMinSize({
-              id: partition.id,
-              min_size: minSize,
-            }),
-          );
-          dispatch(
-            changePartitionUnit({
-              id: partition.id,
-              unit: partition.unit || 'GiB',
-            }),
-          );
-        }
+      value={draft.min_size}
+      onChange={(_, value) => setDraft({ ...draft, min_size: value })}
+      validator={(value) =>
+        validateFilesystemPartition(
+          { ...draft, min_size: value },
+          blueprintMode,
+        )
+      }
+      onCommit={(candidate) => {
+        if (!candidate) return;
+
+        dispatch(
+          changePartitionMinSize({
+            id: partition.id,
+            min_size: candidate.min_size,
+          }),
+        );
       }}
     />
   );
