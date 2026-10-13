@@ -13,7 +13,7 @@ import {
 } from './mountpoints';
 import { uniqueMountpoints } from './utilities';
 
-const nameSchema = z
+export const nameSchema = z
   .string()
   .trim()
   .regex(/^[a-zA-Z0-9+_.][a-zA-Z0-9+_.-]*$/, 'Invalid partition name');
