@@ -12,7 +12,9 @@ import type {
 import { getConversionFactor } from './utilities';
 
 const EMPTY_DISK_PARTITIONS: DiskPartition[] = [];
+const EMPTY_DISK_MOUNTPOINTS: string[] = [];
 const EMPTY_FILESYSTEM_PARTITIONS: FilesystemPartition[] = [];
+const EMPTY_FILESYSTEM_MOUNTPOINTS: string[] = [];
 
 export const selectFscMode = (state: RootState) => {
   return state.wizard.filesystem.mode;
@@ -44,11 +46,41 @@ export const selectDiskPartitions = (state: RootState) => {
   return EMPTY_DISK_PARTITIONS;
 };
 
+export const selectDiskMountpoints = (state: RootState) => {
+  if (state.wizard.filesystem.mode === 'advanced') {
+    const mountpoints = [];
+    state.wizard.filesystem.disk.partitions.forEach((partition) => {
+      if ('mountpoint' in partition && partition.mountpoint) {
+        mountpoints.push(partition.mountpoint);
+      }
+
+      if ('logical_volumes' in partition) {
+        partition.logical_volumes.forEach((p) => {
+          if ('mountpoint' in p && p.mountpoint) {
+            mountpoints.push(p);
+          }
+        });
+      }
+    });
+  }
+
+  return EMPTY_DISK_MOUNTPOINTS;
+};
+
 export const selectFilesystemPartitions = (state: RootState) => {
   if (state.wizard.filesystem.mode === 'basic') {
     return state.wizard.filesystem.filesystem.partitions;
   }
   return EMPTY_FILESYSTEM_PARTITIONS;
+};
+
+export const selectFilesystemMountpoints = (state: RootState) => {
+  if (state.wizard.filesystem.mode === 'basic') {
+    return state.wizard.filesystem.filesystem.partitions
+      .map((p) => p.mountpoint)
+      .filter((p) => p);
+  }
+  return EMPTY_FILESYSTEM_MOUNTPOINTS;
 };
 
 export const selectPartitioningMode = (state: RootState) => {
