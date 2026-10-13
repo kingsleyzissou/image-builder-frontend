@@ -3,6 +3,10 @@ import { createSelector } from '@reduxjs/toolkit';
 import { UNIT_GIB } from '@/constants';
 import { RootState } from '@/store';
 
+import {
+  DEFAULT_MOUNTPOINT_PREFERENCES,
+  RESERVED_MOUNTPOINTS,
+} from './constants';
 import type {
   DiskPartition,
   FilesystemPartition,
@@ -10,6 +14,8 @@ import type {
   VolumeGroup,
 } from './types';
 import { getConversionFactor } from './utilities';
+
+import { selectIsImageMode } from '../details';
 
 const EMPTY_DISK_PARTITIONS: DiskPartition[] = [];
 const EMPTY_DISK_MOUNTPOINTS: string[] = [];
@@ -178,6 +184,53 @@ export const selectImageMinSize = createSelector(
     if (mode === 'basic') return basicSize;
     if (mode === 'advanced') return advancedSize;
     return undefined;
+  },
+);
+
+export const selectMountpoints = createSelector(
+  [selectFscMode, selectFilesystemMountpoints, selectDiskMountpoints],
+  (mode, fsMountpoints, diskMountpoints) => {
+    if (mode === 'basic') fsMountpoints;
+    if (mode === 'advanced') return diskMountpoints;
+    return [];
+  },
+);
+
+export const selectEnumeratedMountpoint = createSelector(
+  [selectIsImageMode, selectMountpoints],
+  (isImageMode, mountpoints) => {
+    const baseMount = isImageMode ? '/var' : '/home';
+    for (let i = 1; ; i++) {
+      const candidate = `${baseMount}/dir${i}`;
+      if (!mountpoints.includes(candidate)) {
+        return candidate;
+      }
+    }
+  },
+);
+
+export const selectSuggestedMountpoint = createSelector(
+  [selectIsImageMode, selectMountpoints, selectEnumeratedMountpoint],
+  (isImageMode, mountpoints, enumeratedMountpoint) => {
+    if (!isImageMode) {
+      for (const mountpoint of DEFAULT_MOUNTPOINT_PREFERENCES) {
+        if (!mountpoints.includes(mountpoint)) {
+          return mountpoint;
+        }
+      }
+
+      return enumeratedMountpoint;
+    }
+
+    for (const mountpoint of DEFAULT_MOUNTPOINT_PREFERENCES) {
+      const m = '/var' + mountpoint;
+      const reserved = RESERVED_MOUNTPOINTS.imageMode.some((r) => r === m);
+      if (mountpoint !== '/var' && !reserved && !mountpoints.includes(m)) {
+        return m;
+      }
+    }
+
+    return enumeratedMountpoint;
   },
 );
 
