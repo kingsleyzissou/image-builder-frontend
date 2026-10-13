@@ -7,6 +7,16 @@ export const FILESYSTEM_TYPES: FilesystemType[] = [
   'swap',
 ];
 
+export const DEFAULT_MOUNTPOINT_PREFERENCES = [
+  '/home',
+  '/var',
+  '/data',
+  '/opt',
+  '/srv',
+  '/tmp',
+  '/app',
+];
+
 export const RESERVED_MOUNTPOINTS = {
   // Policies according to https://github.com/osbuild/images/blob/main/pkg/policies/policies.go
   packageMode: [

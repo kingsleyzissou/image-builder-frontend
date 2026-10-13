@@ -7,22 +7,13 @@ import {
   VolumeGroup,
 } from '@/store/api/backend';
 
+import { DEFAULT_MOUNTPOINT_PREFERENCES } from './constants';
 import {
   DiskPartition,
   FilesystemPartition,
   FilesystemType,
   Units,
 } from './types';
-
-const defaultMountpointPreferences = [
-  '/home',
-  '/var',
-  '/data',
-  '/opt',
-  '/srv',
-  '/tmp',
-  '/app',
-];
 
 export const getConversionFactor = (units: Units) => {
   switch (units) {
