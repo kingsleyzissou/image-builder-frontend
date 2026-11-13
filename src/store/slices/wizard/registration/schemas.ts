@@ -1,10 +1,9 @@
 import z from 'zod';
-
 import {
-  checkJwtToken,
-  checkPemBlocks,
   decodeCertificateString,
+  checkPemBlocks,
   normalizeCertificates,
+  checkJwtToken,
 } from './utilities';
 
 export const registerNowLiterals = z.literal([
@@ -44,6 +43,13 @@ export const satelliteRegistrationSchema = z.object({
   caCert: caCertSchema.optional(),
 });
 
+export const aapRegistrationSchema = z.object({
+  callbackUrl: z.url(),
+  hostConfigKey: z.string(),
+  tlsCertificateAuthority: z.string().optional(),
+  skipTlsVerification: z.boolean().optional(),
+});
+
 export const registrationOptionsSchema = z.object({
   serverUrl: z.string(),
   baseUrl: z.string(),
@@ -56,4 +62,5 @@ export const registrationSliceSchema = z.object({
   type: registrationLiterals,
   options: registrationOptionsSchema.optional(),
   satellite: satelliteRegistrationSchema.optional(),
+  aap: aapRegistrationSchema.optional(),
 });
